@@ -1,5 +1,5 @@
 import { Configuration } from "@/gen/client";
 
-export function getConfiguration(){
+export function getConfiguration() {
   return new Configuration();
 }

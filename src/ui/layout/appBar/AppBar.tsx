@@ -1,4 +1,4 @@
-import { Box} from "@chakra-ui/react";
+import { Box } from "@chakra-ui/react";
 
 export function AppBar() {
   return (
@@ -9,10 +9,8 @@ export function AppBar() {
         w: "100%",
         bgColor: "white",
         boxShadow: "5px 5px 5px #f3f",
-        display: "flex"
+        display: "flex",
       }}
-    >
-
-    </Box>
-  )
+    ></Box>
+  );
 }

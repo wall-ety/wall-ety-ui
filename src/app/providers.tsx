@@ -1,17 +1,13 @@
 "use client";
 
-import { 
-  Box, 
-  ChakraProvider, 
-  useMediaQuery 
-} from "@chakra-ui/react";
+import { Box, ChakraProvider, useMediaQuery } from "@chakra-ui/react";
 
 import { theme } from "@/ui/theme";
 import { AppBar } from "@/ui/layout/appBar";
 
 export function Providers({ children }: { children: React.ReactNode }) {
   const [isLargerThan800] = useMediaQuery("(min-width: 800px)");
-  
+
   return (
     <ChakraProvider theme={theme}>
       <Box width="100%" minHeight="100vh">
