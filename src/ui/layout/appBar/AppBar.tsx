@@ -1,7 +1,34 @@
-import { Box, Button, IconButton, Image, Text } from "@chakra-ui/react";
-import { HamburgerIcon } from "@chakra-ui/icons";
+import { Avatar, Box, IconButton, Image, Input, InputGroup, InputRightElement, Text, Menu, MenuButton, MenuList, MenuItem, Button } from "@chakra-ui/react";
+import { ChevronDownIcon, HamburgerIcon, SearchIcon } from "@chakra-ui/icons";
 
 import logo from "@/assets/images/logo.png";
+
+function UserInfo() {
+  return (
+    <Menu>
+      <MenuButton variant="ghost" textAlign="start" as={Button} rightIcon={<ChevronDownIcon />}>
+        <Box display="flex" alignItems="center" gap={4} mx={2}>
+          <Avatar size='sm' display="block" name='John Doe' src="default_profile.jpg" />
+          <Box>
+            <Text fontWeight="bold" color="black" fontSize="14px">
+              John Doe
+            </Text>
+            <Text color="grey" fontWeight="normal" fontSize="14px">
+              Client
+            </Text>
+          </Box>
+        </Box>
+      </MenuButton>
+      <MenuList>
+        <MenuItem>Download</MenuItem>
+        <MenuItem>Create a Copy</MenuItem>
+        <MenuItem>Mark as Draft</MenuItem>
+        <MenuItem>Delete</MenuItem>
+        <MenuItem>Attend a Workshop</MenuItem>
+      </MenuList>
+    </Menu>
+  )
+}
 
 export function AppBar() {
   return (
@@ -51,8 +78,14 @@ export function AppBar() {
           <HamburgerIcon color="black" />
         </IconButton>
       </Box>
-      <Box display="flex" alignItems="center" gap={2}>
-        <Button size="sm">Logout</Button>
+      <Box display="flex" alignItems="center" gap={4}>
+        <InputGroup size="sm" width={250} variant="filled">
+          <Input placeholder="Type to search" />
+          <InputRightElement>
+            <SearchIcon />
+          </InputRightElement>
+        </InputGroup>
+        <UserInfo />
       </Box>
     </Box>
   );
