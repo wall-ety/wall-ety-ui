@@ -7,6 +7,6 @@ export const theme = extendTheme({
       900: "#698ef5",
     },
     black: "#4c4d4f",
-    grey: "#818585"
+    grey: "#818585",
   },
 });
