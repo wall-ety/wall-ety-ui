@@ -1,4 +1,4 @@
-import { Box, Text } from "@chakra-ui/react";
+import { Box, Text, useColorMode } from "@chakra-ui/react";
 
 type MenuGroupProps = {
   label: string;
@@ -6,9 +6,15 @@ type MenuGroupProps = {
 };
 
 export function MenuGroup({ label, children }: MenuGroupProps) {
+  const { colorMode } = useColorMode();
   return (
     <Box width="100%" my={2}>
-      <Text color="main" fontSize="14px" ml={3} fontWeight="bold">
+      <Text
+        color={colorMode === "light" ? "main" : "white.900"}
+        fontSize="14px"
+        ml={3}
+        fontWeight="bold"
+      >
         {label}
       </Text>
       <Box pl={5} width="100%">
