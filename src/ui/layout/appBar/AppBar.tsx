@@ -12,26 +12,31 @@ import {
   MenuList,
   MenuItem,
   Button,
-  Badge,
   AvatarBadge,
+  useColorMode,
 } from "@chakra-ui/react";
 import {
-  BellIcon,
-  ChevronDownIcon,
-  HamburgerIcon,
-  SearchIcon,
-} from "@chakra-ui/icons";
+  Notifications,
+  ExpandMoreOutlined,
+  Search as SearchIcon,
+  Brightness5 as LightIcon,
+  Brightness7 as DarkIcon,
+} from "@mui/icons-material";
 
+import { usePaletteColors } from "@/ui/hooks";
+import { PALETTE_COLORS } from "@/ui/theme";
 import logo from "@/assets/images/logo.png";
 
 function UserInfo() {
+  const { text: textColor } = usePaletteColors();
+
   return (
     <Menu>
       <MenuButton
         variant="ghost"
         textAlign="start"
         as={Button}
-        rightIcon={<ChevronDownIcon />}
+        rightIcon={<ExpandMoreOutlined />}
       >
         <Box display="flex" alignItems="center" gap={4} mx={2}>
           <Avatar
@@ -43,10 +48,10 @@ function UserInfo() {
             <AvatarBadge boxSize="1.25em" bg="green.500" />
           </Avatar>
           <Box>
-            <Text fontWeight="bold" color="black" fontSize="14px">
+            <Text fontWeight="bold" color={textColor} fontSize="14px">
               John Doe
             </Text>
-            <Text color="grey" fontWeight="normal" fontSize="14px">
+            <Text color={textColor} fontWeight="normal" fontSize="14px">
               Client
             </Text>
           </Box>
@@ -64,6 +69,9 @@ function UserInfo() {
 }
 
 export function AppBar() {
+  const { colorMode, toggleColorMode } = useColorMode();
+  const { text: textColor, bgColor } = usePaletteColors();
+
   return (
     <Box
       sx={{
@@ -71,8 +79,9 @@ export function AppBar() {
         py: 0,
         pr: 5,
         w: "100%",
-        bgColor: "white",
-        boxShadow: "5px 5px 5px #f3f",
+        zIndex: 999,
+        bgColor: bgColor,
+        boxShadow: "1px 1px 10px rgba(0,0,0,.1)",
         display: "flex",
         alignItems: "center",
         justifyContent: "space-between",
@@ -85,6 +94,12 @@ export function AppBar() {
         width="250px"
         alignItems="center"
         position="relative"
+        sx={{
+          "& .MuiSvgIcon-root": {
+            fontSize: "14px",
+            color: PALETTE_COLORS.black,
+          },
+        }}
       >
         <Image
           alt="Wallety"
@@ -97,19 +112,11 @@ export function AppBar() {
         <Text
           fontFamily="sans-serif"
           fontSize="1rem"
-          color="black"
+          color={textColor}
           fontWeight="bold"
         >
           Wallety
         </Text>
-        <IconButton
-          right="0"
-          variant="ghost"
-          aria-label="menu-button"
-          position="absolute"
-        >
-          <HamburgerIcon color="black" />
-        </IconButton>
       </Box>
       <Box display="flex" alignItems="center" gap={1}>
         <InputGroup size="sm" width={250} variant="filled">
@@ -119,7 +126,18 @@ export function AppBar() {
           </InputRightElement>
         </InputGroup>
         <IconButton aria-label="notification-icon" variant="ghost">
-          <BellIcon fontSize={20} color="black" />
+          <Notifications sx={{ fontSize: 20 }} />
+        </IconButton>
+        <IconButton
+          aria-label="toggle-mode-button"
+          variant="ghost"
+          onClick={toggleColorMode}
+        >
+          {colorMode === "light" ? (
+            <DarkIcon sx={{ fontSize: 20 }} />
+          ) : (
+            <LightIcon sx={{ fontSize: 20 }} />
+          )}
         </IconButton>
         <UserInfo />
       </Box>
