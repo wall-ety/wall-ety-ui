@@ -17,7 +17,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
         <Box
           width={isLargerThan800 ? "calc(100% - 250px)" : "100%"}
           ml={isLargerThan800 ? "250px" : "0"}
-          bgColor="red"
+          zIndex={1}
         >
           {children}
         </Box>

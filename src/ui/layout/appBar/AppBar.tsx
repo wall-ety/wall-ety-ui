@@ -12,15 +12,14 @@ import {
   MenuList,
   MenuItem,
   Button,
-  Badge,
   AvatarBadge,
 } from "@chakra-ui/react";
 import {
-  BellIcon,
-  ChevronDownIcon,
-  HamburgerIcon,
-  SearchIcon,
-} from "@chakra-ui/icons";
+  NotificationsOutlined,
+  ExpandMoreOutlined,
+  MenuOutlined,
+  Search as SearchIcon,
+} from "@mui/icons-material";
 
 import logo from "@/assets/images/logo.png";
 
@@ -31,7 +30,7 @@ function UserInfo() {
         variant="ghost"
         textAlign="start"
         as={Button}
-        rightIcon={<ChevronDownIcon />}
+        rightIcon={<ExpandMoreOutlined />}
       >
         <Box display="flex" alignItems="center" gap={4} mx={2}>
           <Avatar
@@ -71,8 +70,9 @@ export function AppBar() {
         py: 0,
         pr: 5,
         w: "100%",
+        zIndex: 999,
         bgColor: "white",
-        boxShadow: "5px 5px 5px #f3f",
+        boxShadow: "1px 1px 10px rgba(0,0,0,.1)",
         display: "flex",
         alignItems: "center",
         justifyContent: "space-between",
@@ -108,7 +108,7 @@ export function AppBar() {
           aria-label="menu-button"
           position="absolute"
         >
-          <HamburgerIcon color="black" />
+          <MenuOutlined sx={{ color: "black" }} />
         </IconButton>
       </Box>
       <Box display="flex" alignItems="center" gap={1}>
@@ -119,7 +119,7 @@ export function AppBar() {
           </InputRightElement>
         </InputGroup>
         <IconButton aria-label="notification-icon" variant="ghost">
-          <BellIcon fontSize={20} color="black" />
+          <NotificationsOutlined sx={{ fontSize: 20, color: "black" }} />
         </IconButton>
         <UserInfo />
       </Box>
