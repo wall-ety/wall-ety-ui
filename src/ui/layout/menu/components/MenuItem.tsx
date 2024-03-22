@@ -19,12 +19,12 @@ export function MenuItem({ label, icon }: MenuItemProps) {
         "fontWeight": "normal",
         "justifyContent": "start",
         "& .MuiSvgIcon-root": {
-          fontSize: "14px",
+          fontSize: "16px",
         },
       }}
     >
       {icon}
-      <Text fontSize="14px">{label}</Text>
+      <Text fontSize="16px">{label}</Text>
     </Button>
   );
 }

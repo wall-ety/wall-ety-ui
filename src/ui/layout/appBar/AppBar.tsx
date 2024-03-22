@@ -14,6 +14,7 @@ import {
   Button,
   AvatarBadge,
   useColorMode,
+  useColorModeValue,
 } from "@chakra-ui/react";
 import {
   Notifications,
@@ -21,15 +22,12 @@ import {
   Search as SearchIcon,
   Brightness5 as LightIcon,
   Brightness7 as DarkIcon,
+  Menu as MenuIcon,
 } from "@mui/icons-material";
 
-import { usePaletteColors } from "@/ui/hooks";
-import { PALETTE_COLORS } from "@/ui/theme";
 import logo from "@/assets/images/logo.png";
 
 function UserInfo() {
-  const { text: textColor } = usePaletteColors();
-
   return (
     <Menu>
       <MenuButton
@@ -48,10 +46,10 @@ function UserInfo() {
             <AvatarBadge boxSize="1.25em" bg="green.500" />
           </Avatar>
           <Box>
-            <Text fontWeight="bold" color={textColor} fontSize="14px">
+            <Text fontWeight="bold" fontSize="14px">
               John Doe
             </Text>
-            <Text color={textColor} fontWeight="normal" fontSize="14px">
+            <Text fontWeight="normal" fontSize="14px">
               Client
             </Text>
           </Box>
@@ -70,7 +68,7 @@ function UserInfo() {
 
 export function AppBar() {
   const { colorMode, toggleColorMode } = useColorMode();
-  const { text: textColor, bgColor } = usePaletteColors();
+  const bgColor = useColorModeValue("white.900", "black.800");
 
   return (
     <Box
@@ -81,42 +79,45 @@ export function AppBar() {
         w: "100%",
         zIndex: 999,
         bgColor: bgColor,
-        boxShadow: "1px 1px 10px rgba(0,0,0,.1)",
+        borderBottom:
+          colorMode === "light" ? "1px solid #f3f0f0" : "1px solid grey",
         display: "flex",
         alignItems: "center",
         justifyContent: "space-between",
+        position: "fixed",
+        top: 0,
+        left: 0,
       }}
     >
       <Box
         gap={2}
-        px={5}
+        pl={5}
         display="flex"
         width="250px"
         alignItems="center"
-        position="relative"
+        justifyContent="space-between"
         sx={{
           "& .MuiSvgIcon-root": {
             fontSize: "14px",
-            color: PALETTE_COLORS.black,
           },
         }}
       >
-        <Image
-          alt="Wallety"
-          src={logo.src}
-          sx={{
-            width: "30px",
-            display: "block",
-          }}
-        />
-        <Text
-          fontFamily="sans-serif"
-          fontSize="1rem"
-          color={textColor}
-          fontWeight="bold"
-        >
-          Wallety
-        </Text>
+        <Box display="flex" alignItems="center" gap={4}>
+          <Image
+            alt="Wallety"
+            src={logo.src}
+            sx={{
+              width: "30px",
+              display: "block",
+            }}
+          />
+          <Text fontFamily="sans-serif" fontSize="1rem" fontWeight="bold">
+            Wallety
+          </Text>
+        </Box>
+        <IconButton aria-label="notification-icon" variant="ghost">
+          <MenuIcon sx={{ fontSize: 20 }} />
+        </IconButton>
       </Box>
       <Box display="flex" alignItems="center" gap={1}>
         <InputGroup size="sm" width={250} variant="filled">
