@@ -17,9 +17,9 @@ export function SingleMenu({ label, icon }: SingleMenuProps) {
         "fontWeight": "normal",
         "cursor": "pointer",
         "justifyContent": "start",
-        "fontSize": "14px",
+        "fontSize": "16px",
         "& .MuiSvgIcon-root": {
-          fontSize: "14px",
+          fontSize: "16px",
         },
       }}
       variant="ghost"

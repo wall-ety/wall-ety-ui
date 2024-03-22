@@ -11,7 +11,7 @@ export function MenuGroup({ label, children }: MenuGroupProps) {
     <Box width="100%" my={2}>
       <Text
         color={colorMode === "light" ? "main" : "white.900"}
-        fontSize="14px"
+        fontSize="16px"
         ml={3}
         fontWeight="bold"
       >

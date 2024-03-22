@@ -1,6 +1,5 @@
-import { ExpandMore } from "@mui/icons-material";
+import { ExpandLess, ExpandMore } from "@mui/icons-material";
 import { Box, Button, Collapse, Text, useDisclosure } from "@chakra-ui/react";
-import { usePaletteColors } from "@/ui/hooks";
 
 type MenuListProps = {
   label: string;
@@ -10,7 +9,6 @@ type MenuListProps = {
 
 export function MenuList({ label, children, icon }: MenuListProps) {
   const { isOpen, onToggle: toggleListMenu } = useDisclosure();
-  const { text: textColor } = usePaletteColors();
 
   return (
     <Box width="100%" sx={{}}>
@@ -26,17 +24,17 @@ export function MenuList({ label, children, icon }: MenuListProps) {
           "cursor": "pointer",
           "justifyContent": "space-between",
           "& .MuiSvgIcon-root": {
-            fontSize: "14px",
+            fontSize: "16px",
           },
         }}
       >
         <Box display="flex" alignItems="center" gap={3}>
           {icon}
-          <Text fontWeight="normal" color={textColor} fontSize="14px">
+          <Text fontWeight="normal" fontSize="16px">
             {label}
           </Text>
         </Box>
-        <ExpandMore sx={{ color: textColor }} />
+        {isOpen ? <ExpandLess /> : <ExpandMore />}
       </Button>
       <Collapse in={isOpen} animateOpacity>
         <Box width="100%">{children}</Box>
