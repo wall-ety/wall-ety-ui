@@ -23,7 +23,7 @@ export function formatDate(dateIso: string, showTime = true) {
 
 export function dateToISO(stringDate: string) {
   return new Date(stringDate).toISOString();
-};
+}
 
 export function getAge(stringDate: string) {
   const currentDate = new Date();
@@ -38,7 +38,10 @@ export function getAge(stringDate: string) {
   const birthDay = birthDate.getDate();
 
   let age = currentYear - birthYear;
-  if (currentMonth < birthMonth || (currentMonth === birthMonth && currentDay < birthDay)) {
+  if (
+    currentMonth < birthMonth ||
+    (currentMonth === birthMonth && currentDay < birthDay)
+  ) {
     age--;
   }
 

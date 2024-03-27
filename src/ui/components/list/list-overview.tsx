@@ -1,8 +1,8 @@
 import { Text, Box } from "@chakra-ui/react";
 
 export type OverviewProps = {
-  content: React.ReactNode
-}
+  content: React.ReactNode;
+};
 
 export function ListOverview({ content }: OverviewProps) {
   return (

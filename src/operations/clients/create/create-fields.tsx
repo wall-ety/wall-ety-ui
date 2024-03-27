@@ -1,11 +1,11 @@
-import { Box } from "@chakra-ui/react"
+import { Box } from "@chakra-ui/react";
 import {
   Person as PersonIcon,
-  Cake as BirthdateIcon
-} from "@mui/icons-material"
+  Cake as BirthdateIcon,
+} from "@mui/icons-material";
 
-import { TextInput } from "@/ui/components/create/inputs"
-import { min, required } from "@/ui/utils/formik/validate"
+import { TextInput } from "@/ui/components/create/inputs";
+import { min, required } from "@/ui/utils/formik/validate";
 import { getAge } from "@/utils/date";
 
 const MIN_AGE = 22;
@@ -14,12 +14,12 @@ export function CreateClientFields() {
   const validateAge = (_: string, value: any) => {
     try {
       if (!(getAge(value) >= MIN_AGE)) {
-        return `Minimum age is ${MIN_AGE}`
+        return `Minimum age is ${MIN_AGE}`;
       }
     } catch {
-      return "Not a valide date"
+      return "Not a valide date";
     }
-  }
+  };
 
   return (
     <Box sx={{ display: "flex", flexDirection: "column", gap: 3 }}>
@@ -53,5 +53,5 @@ export function CreateClientFields() {
         validate={[required(), min(1)]}
       />
     </Box>
-  )
+  );
 }

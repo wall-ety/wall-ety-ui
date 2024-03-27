@@ -1,2 +1,2 @@
-export * from "./useToast"
-export * from "./usePaletteColor"
+export * from "./useToast";
+export * from "./usePaletteColor";

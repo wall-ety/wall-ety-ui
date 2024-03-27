@@ -7,9 +7,8 @@ import { clientProvider } from "@/providers/client-provider";
 import { dateToISO } from "@/utils/date";
 
 export function CreateClient() {
-  const createProvider = (toSave: Client) => clientProvider
-    .saveOrUpdate([toSave])
-    .then((response) => response[0]);
+  const createProvider = (toSave: Client) =>
+    clientProvider.saveOrUpdate([toSave]).then((response) => response[0]);
 
   const defaultValue: Client = {
     firstName: "",
@@ -19,7 +18,7 @@ export function CreateClient() {
   };
 
   const transform = (client: Client): Client => {
-    const currentDate = new Date().toISOString()
+    const currentDate = new Date().toISOString();
     const monthSalary = +client.monthSalary!;
 
     return {
@@ -28,9 +27,9 @@ export function CreateClient() {
       updatedAt: currentDate,
       monthSalary,
       birthdate: dateToISO(client.birthdate!),
-      id: uuid()
-    }
-  }
+      id: uuid(),
+    };
+  };
 
   return (
     <Create
@@ -42,5 +41,5 @@ export function CreateClient() {
     >
       <CreateClientFields />
     </Create>
-  )
+  );
 }

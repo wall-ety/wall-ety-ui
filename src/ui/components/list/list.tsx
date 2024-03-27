@@ -6,14 +6,19 @@ import { ListOverview, OverviewProps } from "./list-overview";
 import { ListContent } from "./list-content";
 
 type ListProps<T> = {
-  provider: () => Promise<T[]>,
-  labels: LabelType<T>[],
-  title: string,
-  overviewProps: OverviewProps,
-  source: string
+  provider: () => Promise<T[]>;
+  labels: LabelType<T>[];
+  title: string;
+  overviewProps: OverviewProps;
+  source: string;
 };
 
-export function List<T>({ provider, labels, source, overviewProps }: ListProps<T>) {
+export function List<T>({
+  provider,
+  labels,
+  source,
+  overviewProps,
+}: ListProps<T>) {
   const { data } = useQuery({
     queryFn: provider,
     queryKey: [source],

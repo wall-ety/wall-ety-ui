@@ -15,10 +15,22 @@ export default function ClientsList() {
   const labels: LabelType<Client>[] = [
     { source: "lastName", label: "Lastname", size: "15%" },
     { source: "firstName", label: "Firstname", size: "15%" },
-    { label: "Created at", size: "15%", render: (client) => formatDate(client.createdAt!, false) },
-    { label: "Updated at", size: "15%", render: (client) => formatDate(client.updatedAt!, false) },
-    { label: "Month Salary", size: "15%", render: (client) => renderMoney(client.monthSalary || 0) },
-    { label: "", component: ClientListActions, size: "25%" }
+    {
+      label: "Created at",
+      size: "15%",
+      render: (client) => formatDate(client.createdAt!, false),
+    },
+    {
+      label: "Updated at",
+      size: "15%",
+      render: (client) => formatDate(client.updatedAt!, false),
+    },
+    {
+      label: "Month Salary",
+      size: "15%",
+      render: (client) => renderMoney(client.monthSalary || 0),
+    },
+    { label: "", component: ClientListActions, size: "25%" },
   ];
 
   return (
@@ -28,7 +40,7 @@ export default function ClientsList() {
       title="Create client"
       provider={clientProvider.getAll}
       overviewProps={{
-        content: <CreateClient />
+        content: <CreateClient />,
       }}
     />
   );

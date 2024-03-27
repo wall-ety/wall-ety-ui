@@ -14,6 +14,6 @@ export function usePaletteColor() {
     primaryText,
     icolor500,
     icolor900,
-    color900
+    color900,
   };
 }

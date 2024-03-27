@@ -18,16 +18,16 @@ import { useToast } from "@/ui/hooks";
 import { ApiErrorResponse } from "@/gen/client";
 
 type CreateProps<T> = {
-  children: React.ReactNode,
-  defaultValue: T,
-  source: string,
-  title: string,
+  children: React.ReactNode;
+  defaultValue: T;
+  source: string;
+  title: string;
   buttonProps?: {
-    label?: string
-  },
-  provider: (toSave: T) => Promise<T>,
-  transform?: (toSave: T | any) => T | any,
-}
+    label?: string;
+  };
+  provider: (toSave: T) => Promise<T>;
+  transform?: (toSave: T | any) => T | any;
+};
 
 export function Create<T>({
   children,
@@ -36,35 +36,38 @@ export function Create<T>({
   provider,
   source,
   transform,
-  buttonProps
+  buttonProps,
 }: CreateProps<T>) {
   const toast = useToast();
-  const modalBgColor = useColorModeValue("white.900", "#434544")
+  const modalBgColor = useColorModeValue("white.900", "#434544");
   const { isOpen, onOpen, onClose } = useDisclosure();
   const queryClient = useQueryClient();
 
-  const { mutate, isPending } = useMutation<T, AxiosError<ApiErrorResponse>, T>({
-    mutationFn: provider,
-    retry: false,
-    onError: (error) => {
-      toast({
-        title: error.response?.data.message,
-        description: `Exit with status code ${error.response?.data.code}`,
-        status: "error"
-      })
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: [source] });
-      toast({
-        title: "Created",
-        description: "Your resource have been created with sucess",
-        status: "success",
-      });
-      onClose();
-    },
-  })
+  const { mutate, isPending } = useMutation<T, AxiosError<ApiErrorResponse>, T>(
+    {
+      mutationFn: provider,
+      retry: false,
+      onError: (error) => {
+        toast({
+          title: error.response?.data.message,
+          description: `Exit with status code ${error.response?.data.code}`,
+          status: "error",
+        });
+      },
+      onSuccess: () => {
+        queryClient.invalidateQueries({ queryKey: [source] });
+        toast({
+          title: "Created",
+          description: "Your resource have been created with sucess",
+          status: "success",
+        });
+        onClose();
+      },
+    }
+  );
 
-  const doSubmit = (values: T) => transform ? mutate(transform(values)) : mutate(values);
+  const doSubmit = (values: T) =>
+    transform ? mutate(transform(values)) : mutate(values);
 
   return (
     <>
@@ -83,7 +86,7 @@ export function Create<T>({
           <Formik
             initialValues={defaultValue as FormikValues}
             onSubmit={(values, actions) => {
-              doSubmit(values as T)
+              doSubmit(values as T);
               actions.setSubmitting(false);
             }}
           >
@@ -91,9 +94,7 @@ export function Create<T>({
               <Form>
                 <ModalHeader sx={{ fontSize: "16px" }}>{title}</ModalHeader>
                 <ModalCloseButton />
-                <ModalBody>
-                  {children}
-                </ModalBody>
+                <ModalBody>{children}</ModalBody>
                 <ModalFooter>
                   <Button
                     size="sm"
@@ -104,7 +105,12 @@ export function Create<T>({
                   >
                     Cancel
                   </Button>
-                  <Button isLoading={isPending} type="submit" size="sm" colorScheme="blue">
+                  <Button
+                    isLoading={isPending}
+                    type="submit"
+                    size="sm"
+                    colorScheme="blue"
+                  >
                     Create
                   </Button>
                 </ModalFooter>
@@ -114,5 +120,5 @@ export function Create<T>({
         </ModalContent>
       </Modal>
     </>
-  )
+  );
 }

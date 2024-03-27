@@ -1,17 +1,24 @@
-import { HTMLInputTypeAttribute } from "react"
-import { Field } from "formik"
-import { FormControl, FormLabel, Input, InputGroup, InputLeftElement, Text } from "@chakra-ui/react"
+import { HTMLInputTypeAttribute } from "react";
+import { Field } from "formik";
+import {
+  FormControl,
+  FormLabel,
+  Input,
+  InputGroup,
+  InputLeftElement,
+  Text,
+} from "@chakra-ui/react";
 
-import { usePaletteColor } from "@/ui/hooks"
+import { usePaletteColor } from "@/ui/hooks";
 
 type TextFieldProps = {
-  name: string,
-  label: string,
-  validate?: ((fieldName: string, values: any) => string | undefined)[],
-  type?: HTMLInputTypeAttribute
-  placeholder?: string,
-  icon: React.ReactElement
-}
+  name: string;
+  label: string;
+  validate?: ((fieldName: string, values: any) => string | undefined)[];
+  type?: HTMLInputTypeAttribute;
+  placeholder?: string;
+  icon: React.ReactElement;
+};
 
 export function TextInput({
   name,
@@ -19,7 +26,7 @@ export function TextInput({
   label,
   placeholder,
   type,
-  icon
+  icon,
 }: TextFieldProps) {
   const { secondText } = usePaletteColor();
 
@@ -37,7 +44,7 @@ export function TextInput({
     }
 
     return undefined;
-  }
+  };
 
   return (
     <Field name={name} validate={validateValue}>
@@ -49,13 +56,13 @@ export function TextInput({
             <FormLabel sx={{ fontSize: "14px" }}>{label}</FormLabel>
             <InputGroup>
               <InputLeftElement
-                pointerEvents='none'
+                pointerEvents="none"
                 sx={{
-                  color: secondText,
-                  '& .MuiSvgIcon-root': {
+                  "color": secondText,
+                  "& .MuiSvgIcon-root": {
                     fontSize: "18px",
-                    color: secondText
-                  }
+                    color: secondText,
+                  },
                 }}
               >
                 {icon}
@@ -68,8 +75,8 @@ export function TextInput({
               </Text>
             )}
           </FormControl>
-        )
+        );
       }}
     </Field>
-  )
+  );
 }
