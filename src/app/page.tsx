@@ -8,9 +8,11 @@ import {
   useColorModeValue,
 } from "@chakra-ui/react";
 import { TrendingUp, TrendingDown } from "@mui/icons-material";
+
+import { FlexBox } from "@/ui/components";
+import { LineChart } from "@/ui/components/chart";
 import { usePaletteColor } from "@/hooks";
 import { PALETTE_COLORS } from "@/ui/theme";
-import { LineChart, FlexBox, BarChart } from "@/ui/components";
 
 export default function Home() {
   const bgColor = useColorModeValue("white.900", "black.800");
@@ -85,7 +87,7 @@ export default function Home() {
           </FlexBox>
         </Box>
       </FlexBox>
-      <LineChart sx={{ height: "350px" }} />
+      <LineChart sx={{ width: 500 }} />
     </Box>
   );
 }

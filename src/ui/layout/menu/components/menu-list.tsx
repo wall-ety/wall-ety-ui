@@ -1,5 +1,12 @@
 import { ExpandLess, ExpandMore } from "@mui/icons-material";
-import { Box, Button, Collapse, Text, useDisclosure } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  Collapse,
+  Text,
+  useColorModeValue,
+  useDisclosure,
+} from "@chakra-ui/react";
 
 type MenuListProps = {
   label: string;
@@ -9,9 +16,10 @@ type MenuListProps = {
 
 export function MenuList({ label, children, icon }: MenuListProps) {
   const { isOpen, onToggle: toggleListMenu } = useDisclosure();
+  const subMenuColor = useColorModeValue("#ededed", "#424242");
 
   return (
-    <Box width="100%" sx={{}}>
+    <Box width="100%" my={0.5} aria-checked={isOpen}>
       <Button
         variant="ghost"
         onClick={toggleListMenu}
@@ -36,8 +44,10 @@ export function MenuList({ label, children, icon }: MenuListProps) {
         </Box>
         {isOpen ? <ExpandLess /> : <ExpandMore />}
       </Button>
-      <Collapse in={isOpen} animateOpacity>
-        <Box width="100%">{children}</Box>
+      <Collapse animate in={isOpen} animateOpacity>
+        <Box width="100%" bgColor={subMenuColor}>
+          {children}
+        </Box>
       </Collapse>
     </Box>
   );

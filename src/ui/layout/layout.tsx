@@ -1,17 +1,9 @@
-"use client";
+import { Box, useColorModeValue, useMediaQuery } from "@chakra-ui/react";
 
-import {
-  Box,
-  ChakraProvider,
-  useColorModeValue,
-  useMediaQuery,
-} from "@chakra-ui/react";
+import { Menu } from "./menu";
+import { AppBar } from "./appbar";
 
-import { AppBar } from "@/ui/layout/appBar";
-import { Menu } from "@/ui/layout/menu/Menu";
-import { theme } from "@/ui/theme";
-
-export function ProvidersBase({ children }: { children: React.ReactNode }) {
+export function MainLayout({ children }: { children: React.ReactNode }) {
   const [isLargerThan800] = useMediaQuery("(min-width: 800px)");
   const bgColor = useColorModeValue("white.500", "black.900");
 
@@ -31,13 +23,5 @@ export function ProvidersBase({ children }: { children: React.ReactNode }) {
         </Box>
       </Box>
     </Box>
-  );
-}
-
-export function Providers({ children }: { children: React.ReactNode }) {
-  return (
-    <ChakraProvider theme={theme}>
-      <ProvidersBase>{children}</ProvidersBase>
-    </ChakraProvider>
   );
 }

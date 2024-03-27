@@ -1,11 +1,17 @@
 import { Button } from "@chakra-ui/react";
+import { redirect } from "next/dist/server/api-utils";
+import Link from "next/link";
 
-type SingleMenuProps = {
+type BaseProps = {
   label: string;
   icon: React.ReactElement;
 };
 
-export function SingleMenu({ label, icon }: SingleMenuProps) {
+type SingleMenuProps = {
+  to?: string;
+} & BaseProps;
+
+export function SingleMenuBase({ label, icon }: BaseProps) {
   return (
     <Button
       sx={{
@@ -27,5 +33,15 @@ export function SingleMenu({ label, icon }: SingleMenuProps) {
       {icon}
       {label}
     </Button>
+  );
+}
+
+export function SingleMenu(props: SingleMenuProps) {
+  return props.to ? (
+    <Link href={props.to}>
+      <SingleMenuBase {...props} />
+    </Link>
+  ) : (
+    <SingleMenuBase {...props} />
   );
 }
