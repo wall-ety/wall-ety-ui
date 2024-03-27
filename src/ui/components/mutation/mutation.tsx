@@ -20,9 +20,9 @@ import { ApiErrorResponse } from "@/gen/client";
 import { useToast } from "@/ui/hooks";
 
 type MutationButton = {
-  label?: string,
-  props?: ButtonProps,
-}
+  label?: string;
+  props?: ButtonProps;
+};
 
 export type MutationProps<T> = {
   children: React.ReactNode;
@@ -30,14 +30,14 @@ export type MutationProps<T> = {
   title?: string;
   defaultValue?: T;
   successToast?: {
-    title?: string,
-    description?: string
-  },
+    title?: string;
+    description?: string;
+  };
   buttons?: {
-    toggle?: MutationButton
-    cancel?: MutationButton,
-    accept?: MutationButton
-  },
+    toggle?: MutationButton;
+    cancel?: MutationButton;
+    accept?: MutationButton;
+  };
   provider: (toSave: T) => Promise<T>;
   transform?: (toSave: T | any) => T | any;
 };
@@ -50,7 +50,7 @@ export function Mutation<T>({
   source,
   transform,
   buttons,
-  successToast
+  successToast,
 }: MutationProps<T>) {
   const toast = useToast();
   const modalBgColor = useColorModeValue("white.900", "#434544");
@@ -72,7 +72,9 @@ export function Mutation<T>({
         queryClient.invalidateQueries({ queryKey: [source] });
         toast({
           title: successToast?.title || "Created",
-          description: successToast?.description || "Your resource have been created with sucess",
+          description:
+            successToast?.description ||
+            "Your resource have been created with sucess",
           status: "success",
         });
         onClose();
@@ -100,7 +102,7 @@ export function Mutation<T>({
         <ModalOverlay />
         <ModalContent sx={{ bgColor: modalBgColor }}>
           <Formik
-            initialValues={defaultValue || {} as FormikValues}
+            initialValues={defaultValue || ({} as FormikValues)}
             onSubmit={(values, actions) => {
               doSubmit(values as T);
               actions.setSubmitting(false);
@@ -108,7 +110,9 @@ export function Mutation<T>({
           >
             {() => (
               <Form>
-                <ModalHeader sx={{ fontSize: "16px" }}>{title || "Create"}</ModalHeader>
+                <ModalHeader sx={{ fontSize: "16px" }}>
+                  {title || "Create"}
+                </ModalHeader>
                 <ModalCloseButton />
                 <ModalBody>{children}</ModalBody>
                 <ModalFooter>

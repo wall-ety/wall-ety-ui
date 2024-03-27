@@ -32,5 +32,5 @@ export function EditClient({ data }: { data: Client }) {
     >
       <ClientFields />
     </EditMutation>
-  )
+  );
 }

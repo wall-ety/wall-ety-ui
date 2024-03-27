@@ -3,7 +3,7 @@ import { FlexBox } from "../flex-box";
 
 type ListActionsProps = {
   children: React.ReactNode;
-  sx?: StyleProps
+  sx?: StyleProps;
 };
 export function ListActions({ children, sx }: ListActionsProps) {
   return (
@@ -15,7 +15,7 @@ export function ListActions({ children, sx }: ListActionsProps) {
         width: "25%",
         gap: 4,
         pe: 5,
-        ...sx
+        ...sx,
       }}
     >
       {children}
