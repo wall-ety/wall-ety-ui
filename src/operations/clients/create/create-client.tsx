@@ -2,8 +2,9 @@ import { v4 as uuid } from "uuid";
 
 import { Client } from "@/gen/client";
 import { Create } from "@/ui/components/create";
-import { clientProvider } from "@/providers/client-provider";
 import { CreateClientFields } from "./create-fields";
+import { clientProvider } from "@/providers/client-provider";
+import { dateToISO } from "@/utils/date";
 
 export function CreateClient() {
   const createProvider = (toSave: Client) => clientProvider
@@ -19,7 +20,16 @@ export function CreateClient() {
 
   const transform = (client: Client): Client => {
     const currentDate = new Date().toISOString()
-    return { ...client, createdAt: currentDate, updatedAt: currentDate, id: uuid() }
+    const monthSalary = +client.monthSalary!;
+
+    return {
+      ...client,
+      createdAt: currentDate,
+      updatedAt: currentDate,
+      monthSalary,
+      birthdate: dateToISO(client.birthdate!),
+      id: uuid()
+    }
   }
 
   return (
@@ -34,5 +44,3 @@ export function CreateClient() {
     </Create>
   )
 }
-
-

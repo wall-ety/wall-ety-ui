@@ -6,15 +6,14 @@ import {
 
 import { TextInput } from "@/ui/components/create/inputs"
 import { min, required } from "@/ui/utils/formik/validate"
+import { getAge } from "@/utils/date";
 
-const MIN_AGE = 21;
+const MIN_AGE = 22;
+
 export function CreateClientFields() {
   const validateAge = (_: string, value: any) => {
     try {
-      const currentYear = new Date().getFullYear();
-      const givenDate = new Date(value).getFullYear();
-
-      if (!(currentYear - givenDate >= MIN_AGE)) {
+      if (!(getAge(value) >= MIN_AGE)) {
         return `Minimum age is ${MIN_AGE}`
       }
     } catch {

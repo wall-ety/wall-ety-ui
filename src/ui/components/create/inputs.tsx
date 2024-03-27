@@ -2,7 +2,7 @@ import { HTMLInputTypeAttribute } from "react"
 import { Field } from "formik"
 import { FormControl, FormLabel, Input, InputGroup, InputLeftElement, Text } from "@chakra-ui/react"
 
-import { usePaletteColor } from "@/hooks"
+import { usePaletteColor } from "@/ui/hooks"
 
 type TextFieldProps = {
   name: string,

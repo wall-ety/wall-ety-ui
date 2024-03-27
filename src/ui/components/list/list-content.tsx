@@ -4,7 +4,7 @@ import { v4 as uuid } from "uuid";
 import { LabelType } from "./list-label";
 import { FlexBox } from "../flex-box";
 
-import { usePaletteColor } from "@/hooks";
+import { usePaletteColor } from "@/ui/hooks";
 
 function ListItem<T>({ item, labels }: { item: T; labels: LabelType<T>[] }) {
   const { icolor900 } = usePaletteColor();

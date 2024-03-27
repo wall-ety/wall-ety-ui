@@ -8,11 +8,14 @@ import {
   ModalHeader,
   ModalOverlay,
   useColorModeValue,
-  useDisclosure
+  useDisclosure,
 } from "@chakra-ui/react";
 import { AxiosError } from "axios";
 import { Form, Formik, FormikValues } from "formik";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+
+import { useToast } from "@/ui/hooks";
+import { ApiErrorResponse } from "@/gen/client";
 
 type CreateProps<T> = {
   children: React.ReactNode,
@@ -35,18 +38,34 @@ export function Create<T>({
   transform,
   buttonProps
 }: CreateProps<T>) {
+  const toast = useToast();
   const modalBgColor = useColorModeValue("white.900", "#434544")
   const { isOpen, onOpen, onClose } = useDisclosure();
   const queryClient = useQueryClient();
 
-  const { mutate: doMutation, isPending } = useMutation<T, AxiosError, T>({
+  const { mutate, isPending } = useMutation<T, AxiosError<ApiErrorResponse>, T>({
     mutationFn: provider,
+    retry: false,
+    onError: (error) => {
+      toast({
+        title: error.response?.data.message,
+        description: `Exit with status code ${error.response?.data.code}`,
+        status: "error"
+      })
+    },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: [source] })
+      queryClient.invalidateQueries({ queryKey: [source] });
+      toast({
+        title: "Created",
+        description: "Your resource have been created with sucess",
+        status: "success",
+      });
+      onClose();
     },
   })
 
-  const doSubmit = (values: T) => transform ? doMutation(transform(values)) : doMutation(values);
+  const doSubmit = (values: T) => transform ? mutate(transform(values)) : mutate(values);
+
   return (
     <>
       <Button
@@ -65,9 +84,7 @@ export function Create<T>({
             initialValues={defaultValue as FormikValues}
             onSubmit={(values, actions) => {
               doSubmit(values as T)
-              actions.resetForm();
               actions.setSubmitting(false);
-              onClose();
             }}
           >
             {() => (
