@@ -18,7 +18,7 @@ export const DATETIME_OPTIONS = {
 export function formatDate(dateIso: string, showTime = true) {
   const OPTIONS = showTime ? DATETIME_OPTIONS : DATE_OPTIONS;
   // @ts-ignore
-  return new Date(dateIso).toLocaleDateString("fr-FR", OPTIONS);
+  return new Date(dateIso).toLocaleDateString("en-EN", OPTIONS);
 }
 
 export function dateToISO(stringDate: string) {
