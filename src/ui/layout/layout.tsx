@@ -5,7 +5,7 @@ import {
 } from "@chakra-ui/react";
 
 import { Menu } from "./menu";
-import { AppBar } from "./appBar";
+import { AppBar } from "./appbar";
 
 export function MainLayout({ children }: { children: React.ReactNode }) {
   const [isLargerThan800] = useMediaQuery("(min-width: 800px)");

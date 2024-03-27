@@ -12,10 +12,12 @@ function ListItem<T>({ item, labels }: { item: T, labels: LabelType<T>[] }) {
 
   return (
     <FlexBox sx={{ my: 3, bgColor: bgColor, width: "100%", textAlign: "center", borderRadius: "5px", py: 3 }}>
-      {labels.map((label, index) => (
-        <Text key={uuid()} sx={{ fontSize: "14px", color: icolor900, width: labels[index].size || "100px" }}>
-          {item[label.source] as React.ReactNode}
+      {labels.map((label, index) => !label.component ? (
+        <Text key={uuid()} sx={{ fontSize: "14px", color: icolor900, width: labels[index].size || `${100 / labels.length}%` }}>
+          {item[label.source!] as React.ReactNode}
         </Text>
+      ) : (
+        <label.component data={item} />
       ))}
     </FlexBox>
   )
