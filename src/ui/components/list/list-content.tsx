@@ -34,7 +34,7 @@ function ListItem<T>({ item, labels }: { item: T; labels: LabelType<T>[] }) {
             {item[label.source!] as React.ReactNode}
           </Text>
         ) : (
-          <label.component data={item} />
+          <label.component key={uuid()} data={item} />
         )
       )}
     </FlexBox>
