@@ -1,11 +1,13 @@
 "use client";
 
-import { v4 as uuid } from "uuid";
-
 import { Client } from "@/gen/client";
 import { List, LabelType } from "@/ui/components/list";
-import { ClientCreateFields, ClientListActions } from "@/components/clients";
+
+import { ClientListActions } from "@/operations/clients/list";
+import { CreateClient } from "@/operations/clients/create";
+
 import { clientProvider } from "@/providers/client-provider";
+
 import { renderMoney } from "@/utils/money";
 import { formatDate } from "@/utils/date";
 
@@ -19,35 +21,15 @@ export default function ClientsList() {
     { label: "", component: ClientListActions, size: "25%" }
   ];
 
-  const createProvider = (toSave: Client) => clientProvider
-    .saveOrUpdate([toSave])
-    .then((response) => response[0]);
-
-  const createDefaultValue: Client = {
-    firstName: "",
-    lastName: "",
-    birthdate: "",
-    monthSalary: 0,
-  };
-
-  const createTransform = (client: Client): Client => {
-    const currentDate = new Date().toISOString()
-    return { ...client, createdAt: currentDate, updatedAt: currentDate, id: uuid() }
-  }
-
   return (
     <List
-      createProps={{
-        source: "clients",
-        title: "Create Client",
-        defaultValue: createDefaultValue,
-        provider: createProvider,
-        transform: createTransform,
-        content: <ClientCreateFields />
-      }}
-      title="Client list"
       labels={labels}
+      source="clients"
+      title="Create client"
       provider={clientProvider.getAll}
+      overviewProps={{
+        content: <CreateClient />
+      }}
     />
   );
 }

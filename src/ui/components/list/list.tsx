@@ -9,19 +9,19 @@ type ListProps<T> = {
   provider: () => Promise<T[]>,
   labels: LabelType<T>[],
   title: string,
-  children?: React.ReactNode,
-  createProps: OverviewProps<T>,
+  overviewProps: OverviewProps,
+  source: string
 };
 
-export function List<T>({ provider, labels, createProps }: ListProps<T>) {
+export function List<T>({ provider, labels, source, overviewProps }: ListProps<T>) {
   const { data } = useQuery({
     queryFn: provider,
-    queryKey: [createProps.source],
+    queryKey: [source],
   });
 
   return (
     <Box sx={{ width: "100%", pl: 3 }}>
-      <ListOverview {...createProps} />
+      <ListOverview {...overviewProps} />
       <ListLabel labels={labels} />
       <ListContent data={data || []} labels={labels} />
     </Box>

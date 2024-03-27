@@ -7,11 +7,13 @@ export function usePaletteColor() {
   const primaryText = useColorModeValue("white.500", "black.900");
   const icolor500 = useColorModeValue("black.500", "white.500");
   const icolor900 = useColorModeValue("black.900", "white.900");
+  const color900 = useColorModeValue("white.900", "black.900");
 
   return {
     secondText,
     primaryText,
     icolor500,
     icolor900,
+    color900
   };
 }
