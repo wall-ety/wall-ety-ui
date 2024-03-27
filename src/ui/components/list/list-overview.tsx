@@ -1,21 +1,87 @@
-import { Text, Box } from "@chakra-ui/react";
+import { useState } from "react";
+import {
+  Text,
+  Box,
+  Button,
+  Modal,
+  ModalOverlay,
+  ModalHeader,
+  ModalCloseButton,
+  ModalBody,
+  ModalFooter,
+  ModalContent,
+  useDisclosure,
+} from "@chakra-ui/react";
+import { AxiosError } from "axios";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
-import { FlexBox } from "../flex-box";
+import { CreateContent } from "./create-content";
 
-type ListOverviewProps<T> = {
-  data: T[];
+export type OverviewProps<T> = {
+  createContent: React.ReactElement,
+  createProvider: (toSave: T) => Promise<T>,
+  source: string
+  title: string,
 };
 
 //TODO: show som information
-export function ListOverview<T>({ data }: ListOverviewProps<T>) {
+export function ListOverview<T>({
+  source,
+  title,
+  createContent,
+  createProvider,
+}: OverviewProps<T>) {
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const [toSave, setToSave] = useState<T | null>(null);
+  const queryClient = useQueryClient();
+
+  const { mutate: doMutation, isPending, isError } = useMutation<T, AxiosError, T>({
+    mutationFn: createProvider,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: [source] })
+    },
+  })
+
   return (
-    <FlexBox sx={{ gap: 3, mb: 2 }}>
-      <Box>
+    <>
+      <Box sx={{ mb: 5 }}>
         <Text sx={{ fontSize: "1.5rem", fontWeight: 600 }}>Overview</Text>
-        {/* <Text sx={{ fontSize: ".9rem", color: icolor500 }}> */}
-        {/*   Lorem ipsum dolor sit amet, qui minim labore adipisicing minim sint cillum . */}
-        {/* </Text> */}
+        <Button
+          size="sm"
+          colorScheme="blue"
+          onClick={onOpen}
+          isLoading={isPending}
+          sx={{ my: 2, px: 7, fontSize: "15px" }}
+        >
+          Créer
+        </Button>
       </Box>
-    </FlexBox>
+      <Modal isOpen={isOpen} onClose={onClose}>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader sx={{ fontSize: "16px" }}>{title}</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>
+            <CreateContent onSubmit={(values) => doMutation(values)}>
+              {createContent}
+            </CreateContent>
+          </ModalBody>
+          <ModalFooter>
+            <Button
+              size="sm"
+              colorScheme="red"
+              variant="outline"
+              mr={3}
+              onClick={onClose}
+            >
+              Cancel
+            </Button>
+            <Button size="sm" colorScheme="blue">
+              Create
+            </Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
+    </>
   );
 }

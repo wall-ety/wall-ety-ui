@@ -10,6 +10,7 @@ export type LabelType<T> = {
   source?: keyof T;
   size?: number | string;
   component?: React.FC<ItemComponentProps<T>>;
+  render?: (data: T) => string;
 };
 
 export function ListLabel<T>({ labels }: { labels: LabelType<T>[] }) {

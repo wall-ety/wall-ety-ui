@@ -21,22 +21,27 @@ function ListItem<T>({ item, labels }: { item: T; labels: LabelType<T>[] }) {
         py: 3,
       }}
     >
-      {labels.map((label, index) =>
-        !label.component ? (
-          <Text
-            key={uuid()}
-            sx={{
-              fontSize: "14px",
-              color: icolor900,
-              width: labels[index].size || `${100 / labels.length}%`,
-            }}
-          >
-            {item[label.source!] as React.ReactNode}
-          </Text>
-        ) : (
-          <label.component key={uuid()} data={item} />
-        )
-      )}
+      {
+        labels.map((label, index) => {
+
+          if (label.component && !label.render) {
+            return <label.component data={item} key={uuid()} />
+          }
+
+          return (
+            <Text
+              key={uuid()}
+              sx={{
+                fontSize: "14px",
+                color: icolor900,
+                width: labels[index].size || `${100 / labels.length}%`,
+              }}
+            >
+              {label.render ? label.render(item) : item[label.source!] as React.ReactNode}
+            </Text>
+          )
+        })
+      }
     </FlexBox>
   );
 }

@@ -1,25 +1,18 @@
 "use client";
 
-import { Button, Text } from "@chakra-ui/react";
+import { Button } from "@chakra-ui/react";
 import { Client } from "@/gen/client";
 import { List, LabelType } from "@/ui/components/list";
+import { FlexBox } from "@/ui/components";
+import { Edit as EditIcon } from "@mui/icons-material";
 import { clientProvider } from "@/providers/client-provider";
 import { renderMoney } from "@/utils/money";
-import { FlexBox } from "@/ui/components";
-import { Delete as DeleteIcon, Edit as EditIcon } from "@mui/icons-material";
-
-function MonthSalaryView({ data: client }: { data: Client }) {
-  return (
-    <Text sx={{ fontSize: "14px", width: "15%", textAlign: "center" }}>
-      {renderMoney(client.monthSalary || 0)}
-    </Text>
-  );
-}
+import { formatDate } from "@/utils/date";
 
 function ClientListActions({ data }: { data: Client }) {
   return (
     <FlexBox
-      sx={{ display: "flex", alignItems: "centrer", width: "25%", gap: 4 }}
+      sx={{ display: "flex", alignItems: "centrer", justifyContent: "end", width: "25%", gap: 4, pe: 5 }}
     >
       <Button
         leftIcon={<EditIcon sx={{ fontSize: "15px" }} />}
@@ -29,29 +22,32 @@ function ClientListActions({ data }: { data: Client }) {
       >
         Edit
       </Button>
-      <Button
-        leftIcon={<DeleteIcon sx={{ fontSize: "15px" }} />}
-        colorScheme="red"
-        size="sm"
-        fontSize="14px"
-      >
-        Delete
-      </Button>
     </FlexBox>
   );
 }
+
 export default function ClientsList() {
   const labels: LabelType<Client>[] = [
     { source: "lastName", label: "Lastname", size: "15%" },
     { source: "firstName", label: "Firstname", size: "15%" },
-    { source: "createdAt", label: "Created at", size: "15%" },
-    { source: "updatedAt", label: "Updated at", size: "15%" },
-    { label: "Month Salary", component: MonthSalaryView, size: "15%" },
-    { label: "", component: ClientListActions, size: "25%" },
+    { label: "Created at", size: "15%", render: (client) => formatDate(client.createdAt!, false) },
+    { label: "Updated at", size: "15%", render: (client) => formatDate(client.updatedAt!, false) },
+    { label: "Month Salary", size: "15%", render: (client) => renderMoney(client.monthSalary || 0) },
+    { label: "", component: ClientListActions, size: "25%" }
   ];
+
+  const createProvider = (toSave: Client) => clientProvider
+    .saveOrUpdate([toSave])
+    .then((response) => response[0]);
 
   return (
     <List
+      overviewProps={{
+        source: "clients",
+        createProvider,
+        title: "Create Client",
+        createContent: <p>Hello from list of clients</p>,
+      }}
       title="Client list"
       labels={labels}
       provider={clientProvider.getAll}

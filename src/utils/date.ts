@@ -1,0 +1,26 @@
+export const DATE_OPTIONS = {
+  year: "numeric",
+  month: "long",
+  day: "numeric",
+};
+
+export const TIME_OPTIONS = {
+  hour: "numeric",
+  minute: "numeric",
+  second: "numeric",
+};
+
+export const DATETIME_OPTIONS = {
+  ...DATE_OPTIONS,
+  ...TIME_OPTIONS,
+};
+
+export function formatDate(dateIso: string, showTime = true) {
+  const OPTIONS = showTime ? DATETIME_OPTIONS : DATE_OPTIONS;
+  // @ts-ignore
+  return new Date(dateIso).toLocaleDateString("fr-FR", OPTIONS);
+}
+
+export function dateToISO(stringDate: string) {
+  return new Date(stringDate).toISOString();
+};
