@@ -11,6 +11,7 @@ type ListProps<T> = {
   title: string;
   overviewProps: OverviewProps;
   source: string;
+  rowClick?: (data: T) => void
 };
 
 export function List<T>({
@@ -18,6 +19,7 @@ export function List<T>({
   labels,
   source,
   overviewProps,
+  rowClick
 }: ListProps<T>) {
   const { data } = useQuery({
     queryFn: provider,
@@ -28,7 +30,7 @@ export function List<T>({
     <Box sx={{ width: "100%", pl: 3 }}>
       <ListOverview {...overviewProps} />
       <ListLabel labels={labels} />
-      <ListContent data={data || []} labels={labels} />
+      <ListContent rowClick={rowClick} data={data || []} labels={labels} />
     </Box>
   );
 }

@@ -1,1 +1,1 @@
-const NOOP_FN = () => {};
+export const NOOP_FN = () => {};

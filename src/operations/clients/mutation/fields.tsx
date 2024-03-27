@@ -2,6 +2,7 @@ import { Box } from "@chakra-ui/react";
 import {
   Person as PersonIcon,
   Cake as BirthdateIcon,
+  AttachMoney
 } from "@mui/icons-material";
 
 import { TextInput } from "@/ui/components/mutation/inputs";
@@ -49,7 +50,7 @@ export function ClientFields() {
         name="monthSalary"
         placeholder="Month Salary"
         label="Month Salary"
-        icon={<span>$</span>}
+        icon={<AttachMoney />}
         validate={[required(), min(1)]}
       />
     </Box>

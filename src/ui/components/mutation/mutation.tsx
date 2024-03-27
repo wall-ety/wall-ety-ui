@@ -1,3 +1,4 @@
+import { MouseEvent } from "react";
 import {
   Button,
   ButtonProps,
@@ -90,7 +91,10 @@ export function Mutation<T>({
       <Button
         size="sm"
         colorScheme="blue"
-        onClick={onOpen}
+        onClick={(event: MouseEvent<HTMLButtonElement>) => {
+          event.stopPropagation();
+          onOpen();
+        }}
         leftIcon={<AddIcon />}
         isLoading={isPending}
         sx={{ my: 2, px: 3, fontSize: "15px" }}
