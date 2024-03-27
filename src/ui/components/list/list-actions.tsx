@@ -1,9 +1,11 @@
+import { StyleProps } from "@chakra-ui/react";
 import { FlexBox } from "../flex-box";
 
 type ListActionsProps = {
   children: React.ReactNode;
+  sx?: StyleProps
 };
-export function ListActions({ children }: ListActionsProps) {
+export function ListActions({ children, sx }: ListActionsProps) {
   return (
     <FlexBox
       sx={{
@@ -13,6 +15,7 @@ export function ListActions({ children }: ListActionsProps) {
         width: "25%",
         gap: 4,
         pe: 5,
+        ...sx
       }}
     >
       {children}

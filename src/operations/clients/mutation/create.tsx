@@ -1,8 +1,9 @@
 import { v4 as uuid } from "uuid";
 
 import { Client } from "@/gen/client";
-import { Create } from "@/ui/components/create";
-import { CreateClientFields } from "./create-fields";
+import { CreateMutation } from "@/ui/components/mutation";
+import { ClientFields } from "./fields";
+
 import { clientProvider } from "@/providers/client-provider";
 import { dateToISO } from "@/utils/date";
 
@@ -32,14 +33,14 @@ export function CreateClient() {
   };
 
   return (
-    <Create
+    <CreateMutation
       source="clients"
       title="Create client"
       transform={transform}
       provider={createProvider}
       defaultValue={defaultValue}
     >
-      <CreateClientFields />
-    </Create>
+      <ClientFields />
+    </CreateMutation>
   );
 }

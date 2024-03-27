@@ -1,5 +1,6 @@
 import {
   Button,
+  ButtonProps,
   Modal,
   ModalBody,
   ModalCloseButton,
@@ -13,31 +14,44 @@ import {
 import { AxiosError } from "axios";
 import { Form, Formik, FormikValues } from "formik";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { Add as AddIcon } from "@mui/icons-material";
 
-import { useToast } from "@/ui/hooks";
 import { ApiErrorResponse } from "@/gen/client";
+import { useToast } from "@/ui/hooks";
 
-type CreateProps<T> = {
+type MutationButton = {
+  label?: string,
+  props?: ButtonProps,
+}
+
+export type MutationProps<T> = {
   children: React.ReactNode;
-  defaultValue: T;
   source: string;
-  title: string;
-  buttonProps?: {
-    label?: string;
-  };
+  title?: string;
+  defaultValue?: T;
+  successToast?: {
+    title?: string,
+    description?: string
+  },
+  buttons?: {
+    toggle?: MutationButton
+    cancel?: MutationButton,
+    accept?: MutationButton
+  },
   provider: (toSave: T) => Promise<T>;
   transform?: (toSave: T | any) => T | any;
 };
 
-export function Create<T>({
+export function Mutation<T>({
   children,
   defaultValue,
   title,
   provider,
   source,
   transform,
-  buttonProps,
-}: CreateProps<T>) {
+  buttons,
+  successToast
+}: MutationProps<T>) {
   const toast = useToast();
   const modalBgColor = useColorModeValue("white.900", "#434544");
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -57,8 +71,8 @@ export function Create<T>({
       onSuccess: () => {
         queryClient.invalidateQueries({ queryKey: [source] });
         toast({
-          title: "Created",
-          description: "Your resource have been created with sucess",
+          title: successToast?.title || "Created",
+          description: successToast?.description || "Your resource have been created with sucess",
           status: "success",
         });
         onClose();
@@ -75,16 +89,18 @@ export function Create<T>({
         size="sm"
         colorScheme="blue"
         onClick={onOpen}
+        leftIcon={<AddIcon />}
         isLoading={isPending}
-        sx={{ my: 2, px: 7, fontSize: "15px" }}
+        sx={{ my: 2, px: 3, fontSize: "15px" }}
+        {...buttons?.toggle?.props}
       >
-        {buttonProps?.label || "Create"}
+        {buttons?.toggle?.label || "Create"}
       </Button>
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent sx={{ bgColor: modalBgColor }}>
           <Formik
-            initialValues={defaultValue as FormikValues}
+            initialValues={defaultValue || {} as FormikValues}
             onSubmit={(values, actions) => {
               doSubmit(values as T);
               actions.setSubmitting(false);
@@ -92,7 +108,7 @@ export function Create<T>({
           >
             {() => (
               <Form>
-                <ModalHeader sx={{ fontSize: "16px" }}>{title}</ModalHeader>
+                <ModalHeader sx={{ fontSize: "16px" }}>{title || "Create"}</ModalHeader>
                 <ModalCloseButton />
                 <ModalBody>{children}</ModalBody>
                 <ModalFooter>
@@ -102,16 +118,18 @@ export function Create<T>({
                     variant="outline"
                     mr={5}
                     onClick={onClose}
+                    {...buttons?.cancel?.props}
                   >
-                    Cancel
+                    {buttons?.cancel?.label || "Cancel"}
                   </Button>
                   <Button
                     isLoading={isPending}
                     type="submit"
                     size="sm"
                     colorScheme="blue"
+                    {...buttons?.accept?.props}
                   >
-                    Create
+                    {buttons?.accept?.label || "Créer"}
                   </Button>
                 </ModalFooter>
               </Form>

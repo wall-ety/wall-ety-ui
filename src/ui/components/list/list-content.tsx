@@ -15,7 +15,6 @@ function ListItem<T>({ item, labels }: { item: T; labels: LabelType<T>[] }) {
       sx={{
         my: 3,
         bgColor: bgColor,
-        width: "100%",
         textAlign: "center",
         borderRadius: "5px",
         py: 3,
