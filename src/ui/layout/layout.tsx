@@ -12,8 +12,8 @@ export function MainLayout({ children }: { children: React.ReactNode }) {
       <Menu />
       <AppBar />
       <Box
-        width={isLargerThan800 ? "calc(100% - 250px)" : "100%"}
-        ml={isLargerThan800 ? "250px" : "0"}
+        width={isLargerThan800 ? "calc(100% - 275px)" : "100%"}
+        ml={isLargerThan800 ? "275px" : "0"}
         zIndex={1}
         p={2}
         minHeight="calc(100vh - 50px)"

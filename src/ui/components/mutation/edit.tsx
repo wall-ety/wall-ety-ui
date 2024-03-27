@@ -17,7 +17,9 @@ export function EditMutation<T>({
         toggle: {
           label: "Edit",
           props: {
+            bgColor: "yellow.400",
             colorScheme: "yellow",
+            color: "black",
             sx: { my: 0 },
             leftIcon: <EditIcon sx={{ fontSize: "18px" }} />,
           },

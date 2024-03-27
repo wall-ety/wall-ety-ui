@@ -90,7 +90,8 @@ export function Mutation<T>({
     <>
       <Button
         size="sm"
-        colorScheme="blue"
+        bgColor="main"
+        color="white"
         onClick={(event: MouseEvent<HTMLButtonElement>) => {
           event.stopPropagation();
           onOpen();
