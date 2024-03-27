@@ -111,7 +111,7 @@ export function AppBar() {
               display: "block",
             }}
           />
-          <Text fontFamily="sans-serif" fontSize="1rem" fontWeight="bold">
+          <Text fontFamily="sans-serif" color={colorMode === "light" ? "black.700" : "white.900"} fontSize="1rem" fontWeight="bold">
             Wallety
           </Text>
         </Box>

@@ -1,3 +1,2 @@
-export * from "./FLexBox";
-export * from "./LineChart";
-export * from "./BarChart";
+export * from "./flex-box";
+export * from "./button";

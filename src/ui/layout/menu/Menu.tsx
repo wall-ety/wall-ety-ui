@@ -1,7 +1,7 @@
 import { Box, useColorModeValue } from "@chakra-ui/react";
 import { AccountBalance, GitHub, Person } from "@mui/icons-material";
 
-import { MenuGroup, MenuItem, MenuList, SingleMenu } from "./components";
+import { MenuItem, MenuList, SingleMenu } from "./components";
 
 export function Menu() {
   const bgColor = useColorModeValue("white.900", "black.800");
@@ -19,22 +19,15 @@ export function Menu() {
       }}
       borderRight="1px 1px 1px white"
     >
-      <MenuGroup label="Accounts">
-        <SingleMenu
-          label="Profile"
-          icon={<Person sx={{ fontSize: "14px" }} />}
-        />
-        <MenuList label="Banks" icon={<AccountBalance />}>
-          <MenuItem label="Lists here" icon={<GitHub />} />
-          <MenuItem label="Lists here" icon={<GitHub />} />
-        </MenuList>
-      </MenuGroup>
-      <MenuGroup label="Test">
-        <MenuList label="Banks" icon={<AccountBalance />}>
-          <MenuItem label="Lists here" icon={<GitHub />} />
-          <MenuItem label="Lists here" icon={<GitHub />} />
-        </MenuList>
-      </MenuGroup>
+      <SingleMenu
+        label="Profile"
+        icon={<Person sx={{ fontSize: "14px" }} />}
+      />
+      <SingleMenu label="Clients" to="/clients" icon={<AccountBalance />} />
+      <MenuList label="Banks" icon={<AccountBalance />}>
+        <MenuItem label="Lists here" icon={<GitHub />} />
+        <MenuItem label="Lists here" icon={<GitHub />} />
+      </MenuList>
     </Box>
   );
 }

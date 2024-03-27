@@ -1,0 +1,31 @@
+import { Text, useColorModeValue } from "@chakra-ui/react"
+import { FlexBox } from "../flex-box";
+
+export type LabelType<T> = {
+  label: string,
+  source: keyof T,
+  size?: number,
+  field?: React.ReactElement
+}
+
+export function ListLabel<T>({ labels }: { labels: LabelType<T>[] }) {
+  const labelColor = useColorModeValue("black.500", "white.500")
+
+  return (
+    <FlexBox sx={{ borderRadius: "5px", mb: 3 }}>
+      {labels.map(label => (
+        <Text
+          key={label.label}
+          color={labelColor}
+          sx={{
+            fontSize: "14px",
+            textAlign: "center",
+            width: label.size || "100px",
+          }}
+        >
+          {label.label}
+        </Text>
+      ))}
+    </FlexBox>
+  )
+}

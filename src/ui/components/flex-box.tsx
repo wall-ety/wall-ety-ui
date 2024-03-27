@@ -5,7 +5,7 @@ export function FlexBox({
   children,
   sx,
 }: {
-  children: React.ReactNode;
+  children?: React.ReactNode | string | any;
   sx?: StyleProps;
 }) {
   return (
