@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import { Button, Text } from "@chakra-ui/react";
 import { Client } from "@/gen/client";
@@ -13,12 +13,14 @@ function MonthSalaryView({ data: client }: { data: Client }) {
     <Text sx={{ fontSize: "14px", width: "15%", textAlign: "center" }}>
       {renderMoney(client.monthSalary || 0)}
     </Text>
-  )
+  );
 }
 
 function ClientListActions({ data }: { data: Client }) {
   return (
-    <FlexBox sx={{ display: "flex", alignItems: "centrer", width: "25%", gap: 4 }}>
+    <FlexBox
+      sx={{ display: "flex", alignItems: "centrer", width: "25%", gap: 4 }}
+    >
       <Button
         leftIcon={<EditIcon sx={{ fontSize: "15px" }} />}
         colorScheme="yellow"
@@ -36,17 +38,17 @@ function ClientListActions({ data }: { data: Client }) {
         Delete
       </Button>
     </FlexBox>
-  )
+  );
 }
 export default function ClientsList() {
   const labels: LabelType<Client>[] = [
-    { source: "lastName", label: "Lastname", size: "15%"},
+    { source: "lastName", label: "Lastname", size: "15%" },
     { source: "firstName", label: "Firstname", size: "15%" },
     { source: "createdAt", label: "Created at", size: "15%" },
     { source: "updatedAt", label: "Updated at", size: "15%" },
     { label: "Month Salary", component: MonthSalaryView, size: "15%" },
-    { label: "", component: ClientListActions, size: "25%"}
-  ]
+    { label: "", component: ClientListActions, size: "25%" },
+  ];
 
   return (
     <List
@@ -54,5 +56,5 @@ export default function ClientsList() {
       labels={labels}
       provider={clientProvider.getAll}
     />
-  )
+  );
 }

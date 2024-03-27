@@ -8,7 +8,7 @@ type BaseProps = {
 };
 
 type SingleMenuProps = {
-  to?: string
+  to?: string;
 } & BaseProps;
 
 export function SingleMenuBase({ label, icon }: BaseProps) {
@@ -41,5 +41,7 @@ export function SingleMenu(props: SingleMenuProps) {
     <Link href={props.to}>
       <SingleMenuBase {...props} />
     </Link>
-  ) : <SingleMenuBase {...props} />
+  ) : (
+    <SingleMenuBase {...props} />
+  );
 }

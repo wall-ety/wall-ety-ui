@@ -19,10 +19,7 @@ export function Menu() {
       }}
       borderRight="1px 1px 1px white"
     >
-      <SingleMenu
-        label="Profile"
-        icon={<Person sx={{ fontSize: "14px" }} />}
-      />
+      <SingleMenu label="Profile" icon={<Person sx={{ fontSize: "14px" }} />} />
       <SingleMenu label="Clients" to="/clients" icon={<AccountBalance />} />
       <MenuList label="Banks" icon={<AccountBalance />}>
         <MenuItem label="Lists here" icon={<GitHub />} />

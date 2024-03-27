@@ -1,8 +1,4 @@
-import {
-  Box,
-  useColorModeValue,
-  useMediaQuery,
-} from "@chakra-ui/react";
+import { Box, useColorModeValue, useMediaQuery } from "@chakra-ui/react";
 
 import { Menu } from "./menu";
 import { AppBar } from "./appbar";
