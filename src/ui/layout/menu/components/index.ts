@@ -1,3 +1,3 @@
-export * from "./MenuList";
-export * from "./MenuItem";
-export * from "./SingleMenu";
+export * from "./menu-item";
+export * from "./menu-list";
+export * from "./single-menu";
