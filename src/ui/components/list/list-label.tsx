@@ -1,15 +1,11 @@
 import { Text, useColorModeValue } from "@chakra-ui/react";
 import { FlexBox } from "../flex-box";
 
-type ItemComponentProps<T> = {
-  data: T;
-};
-
 export type LabelType<T> = {
   label: string;
   source?: keyof T;
   size?: number | string;
-  component?: React.FC<ItemComponentProps<T>>;
+  component?: React.FC<{ data: T }>;
   render?: (data: T) => string;
 };
 

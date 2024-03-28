@@ -69,6 +69,7 @@ export function ListContent<T>({
 }) {
   return (
     <Box sx={{ width: "100%" }}>
+      {data.length === 0 && <p>empty</p>}
       {data.map((item) => (
         <ListItem<T> key={uuid()} item={item} rowClick={rowClick} labels={labels} />
       ))}

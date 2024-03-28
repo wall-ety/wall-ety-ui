@@ -92,6 +92,7 @@ export function Mutation<T>({
         size="sm"
         bgColor="main"
         color="white"
+        colorScheme="blue"
         onClick={(event: MouseEvent<HTMLButtonElement>) => {
           event.stopPropagation();
           onOpen();
@@ -102,7 +103,7 @@ export function Mutation<T>({
         {...buttons?.toggle?.props}
       >
         {buttons?.toggle?.label || "Create"}
-      </Button>
+      </Button >
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent sx={{ bgColor: modalBgColor }}>
@@ -119,7 +120,9 @@ export function Mutation<T>({
                   {title || "Create"}
                 </ModalHeader>
                 <ModalCloseButton />
-                <ModalBody>{children}</ModalBody>
+                <ModalBody>
+                  {children}
+                </ModalBody>
                 <ModalFooter>
                   <Button
                     size="sm"

@@ -1,5 +1,5 @@
 import { HTMLInputTypeAttribute } from "react";
-import { Field } from "formik";
+import { Field, useFormikContext } from "formik";
 import {
   FormControl,
   FormLabel,
@@ -7,18 +7,42 @@ import {
   InputGroup,
   InputLeftElement,
   Text,
+  Switch
 } from "@chakra-ui/react";
+import { v4 as uuid } from "uuid";
 
 import { usePaletteColor } from "@/ui/hooks";
 
-type TextFieldProps = {
+type FieldProps = {
   name: string;
   label: string;
   validate?: ((fieldName: string, values: any) => string | undefined)[];
+}
+
+type TextFieldProps = {
   type?: HTMLInputTypeAttribute;
   placeholder?: string;
   icon: React.ReactElement;
-};
+} & FieldProps;
+
+export function SwitchInput({ label, name }: FieldProps) {
+  const id = uuid();
+  const { handleChange, values } = useFormikContext();
+  const anyValues: any = values;
+
+  return (
+    <Field name={name}>
+      {() => (
+        <FormControl display='flex' alignItems='center' gap={2}>
+          <FormLabel htmlFor={id} fontSize="15px">
+            {label}
+          </FormLabel>
+          <Switch mb={1} isChecked={anyValues[name]} onChange={handleChange} id={id} name={name} />
+        </FormControl>
+      )}
+    </Field>
+  )
+}
 
 export function TextInput({
   name,

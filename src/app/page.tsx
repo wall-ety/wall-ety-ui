@@ -11,7 +11,7 @@ import { TrendingUp, TrendingDown } from "@mui/icons-material";
 
 import { FlexBox } from "@/ui/components";
 import { LineChart } from "@/ui/components/chart";
-import { usePaletteColor } from "@/hooks";
+import { usePaletteColor } from "@/ui/hooks";
 import { PALETTE_COLORS } from "@/ui/theme";
 
 export default function Home() {
