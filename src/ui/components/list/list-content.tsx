@@ -6,6 +6,7 @@ import { FlexBox } from "../flex-box";
 
 import { usePaletteColor } from "@/ui/hooks";
 import { NOOP_FN } from "@/utils/noop";
+import { ListEmpty } from "./list-empty";
 
 type ListItemProps<T> = {
   item: T;
@@ -69,7 +70,7 @@ export function ListContent<T>({
 }) {
   return (
     <Box sx={{ width: "100%" }}>
-      {data.length === 0 && <p>empty</p>}
+      {data.length === 0 && <ListEmpty />}
       {data.map((item) => (
         <ListItem<T> key={uuid()} item={item} rowClick={rowClick} labels={labels} />
       ))}
