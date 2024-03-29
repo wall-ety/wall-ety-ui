@@ -21,7 +21,7 @@ export function List<T>({
   overviewProps,
   rowClick,
 }: ListProps<T>) {
-  const { data } = useQuery({
+  const { data, isPending } = useQuery({
     queryFn: provider,
     queryKey: [source],
   });
@@ -30,7 +30,7 @@ export function List<T>({
     <Box sx={{ width: "100%", pl: 3 }}>
       <ListOverview {...overviewProps} />
       <ListLabel labels={labels} />
-      <ListContent rowClick={rowClick} data={data || []} labels={labels} />
+      <ListContent rowClick={rowClick} isPending={isPending} data={data || []} labels={labels} />
     </Box>
   );
 }

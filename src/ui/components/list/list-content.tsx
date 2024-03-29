@@ -7,6 +7,7 @@ import { FlexBox } from "../flex-box";
 import { usePaletteColor } from "@/ui/hooks";
 import { NOOP_FN } from "@/utils/noop";
 import { ListEmpty } from "./list-empty";
+import { ListLoading } from "./list-loading";
 
 type ListItemProps<T> = {
   item: T;
@@ -63,14 +64,17 @@ export function ListContent<T>({
   data,
   labels,
   rowClick,
+  isPending
 }: {
   data: T[];
   labels: LabelType<T>[];
   rowClick: ListItemProps<T>["rowClick"];
+  isPending: boolean
 }) {
   return (
     <Box sx={{ width: "100%" }}>
-      {data.length === 0 && <ListEmpty />}
+      {(!isPending && data.length === 0) && <ListEmpty />}
+      {isPending && <ListLoading />}
       {data.map((item) => (
         <ListItem<T>
           key={uuid()}
