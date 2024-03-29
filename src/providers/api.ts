@@ -1,5 +1,6 @@
 import {
   AccountsApi,
+  BalancesApi,
   BanksApi,
   CategoriesApi,
   ClientsApi,
@@ -12,3 +13,4 @@ export const clientApi = () => new ClientsApi(getConfiguration());
 export const bankApi = () => new BanksApi(getConfiguration());
 export const categoryApi = () => new CategoriesApi(getConfiguration());
 export const accountApi = () => new AccountsApi(getConfiguration());
+export const balanceApi = () => new BalancesApi(getConfiguration());

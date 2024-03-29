@@ -1,5 +1,5 @@
 import { ChangeEvent, useState } from "react";
-import { Select, Text, Box, useColorModeValue } from "@chakra-ui/react";
+import { Select, Text, Box } from "@chakra-ui/react";
 import { Category, CategoryType } from "@/gen/client";
 import { List, LabelType, useOrder } from "@/ui/components/list";
 import { CreateCategory } from "@/operations/categories/mutation";

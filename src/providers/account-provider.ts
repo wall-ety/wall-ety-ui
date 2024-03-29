@@ -1,6 +1,6 @@
 import { Account } from "@/gen/client";
 import { OrderType } from "./utils";
-import { accountApi } from "./api";
+import { accountApi, balanceApi } from "./api";
 
 export const accountProvider = {
   getAll: async (orderValue: OrderType<Account>, idClient: string | undefined, idBank: string | undefined) => {
@@ -18,4 +18,9 @@ export const accountProvider = {
       .crupdateAccounts(accounts)
       .then((respone) => respone.data);
   },
+  getCurrentBalance: async (accountId: string) => {
+    return balanceApi()
+      .getCurrentBalance(accountId)
+      .then(response => response.data)
+  }
 };

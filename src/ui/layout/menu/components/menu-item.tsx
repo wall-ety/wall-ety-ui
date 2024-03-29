@@ -12,7 +12,7 @@ export function MenuItem({ label, icon, to }: MenuItemProps) {
   const pathName = usePathname();
   const { icolor900 } = usePaletteColor();
 
-  const isActive = pathName.toString() === to;
+  const isActive = pathName.toString().startsWith(to);
 
   return (
     <Button

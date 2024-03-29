@@ -1,17 +1,18 @@
+import { ChangeEvent, Dispatch, SetStateAction, useState } from "react";
 import { Box, Select, Text } from "@chakra-ui/react";
 import { Check, Close } from "@mui/icons-material";
+import { useRouter } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
 
-import { Account, CategoryType } from "@/gen/client";
+import { Account } from "@/gen/client";
 import { List, LabelType, useOrder } from "@/ui/components/list";
 import { CreateAccountModal } from "@/operations/accounts/mutation";
 import { AccountListActions } from "./actions";
+import { FlexBox, Separator } from "@/ui/components";
 
 import { accountProvider } from "@/providers/account-provider";
 
 import { formatDate } from "@/utils/date";
-import { ChangeEvent, Dispatch, SetStateAction, useState } from "react";
-import { FlexBox, Separator } from "@/ui/components";
 import { clientProvider } from "@/providers/client-provider";
 import { bankProvider } from "@/providers/bank-provider";
 
@@ -29,6 +30,7 @@ export type AccountListFilter = {
 }
 
 export function AccountList() {
+  const router = useRouter();
   const [filter, setFilter] = useState<AccountListFilter>({});
 
   const { handleChange, orderValue } = useOrder<Account>({
@@ -54,6 +56,7 @@ export function AccountList() {
       source="accounts"
       keys={[orderValue.order, orderValue.orderBy, filter.idBank, filter.idCient]}
       provider={() => accountProvider.getAll(orderValue, filter.idCient || undefined, filter.idBank || undefined)}
+      rowClick={(account) => router.push(`/accounts/${account.id!}`)}
       overviewProps={{
         leftButton: <CreateAccountModal />,
         content: <AccountListOverview onChange={(value) => setFilter(value)} />,
