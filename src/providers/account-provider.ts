@@ -1,6 +1,6 @@
-import { Account } from "@/gen/client";
+import { Account, Transaction } from "@/gen/client";
 import { OrderType } from "./utils";
-import { accountApi, balanceApi } from "./api";
+import { accountApi, balanceApi, transactionApi } from "./api";
 
 export const accountProvider = {
   getAll: async (orderValue: OrderType<Account>, idClient: string | undefined, idBank: string | undefined) => {
@@ -21,6 +21,11 @@ export const accountProvider = {
   getCurrentBalance: async (accountId: string) => {
     return balanceApi()
       .getCurrentBalance(accountId)
+      .then(response => response.data)
+  },
+  getTransaction: async (accountId: string, orderValue: OrderType<Transaction>) => {
+    return transactionApi()
+      .getTransactionsByAccountId(accountId, orderValue.order, orderValue.orderBy)
       .then(response => response.data)
   }
 };
