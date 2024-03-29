@@ -41,7 +41,6 @@ export function ClientList() {
       labels={labels}
       source="clients"
       keys={[orderValue.order, orderValue.orderBy]}
-      title="Create client"
       provider={() => clientProvider.getAll(orderValue)}
       overviewProps={{
         leftButton: <CreateClient />,

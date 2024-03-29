@@ -8,7 +8,6 @@ import { ListContent } from "./list-content";
 type ListProps<T> = {
   provider: () => Promise<T[]>;
   labels: LabelType<T>[];
-  title: string;
   overviewProps: OverviewProps<T>;
   source: string;
   keys?: any[],

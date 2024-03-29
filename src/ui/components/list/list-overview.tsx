@@ -38,7 +38,6 @@ export function ListOverview<T>({ content, leftButton, orders }: OverviewProps<T
               py={2}
               bgColor={color900}
               display={"block"}
-              placeholder="Order"
               value={orders!.current.orderBy as string}
               onChange={(e: ChangeEvent<HTMLSelectElement>) => {
                 orders?.handleChange({ orderBy: e.target.value, order: orders.current.order })
@@ -56,8 +55,6 @@ export function ListOverview<T>({ content, leftButton, orders }: OverviewProps<T
               display={"block"}
               size="sm"
               value={orders!.current.order as string}
-              placeholder="Order value"
-              colorScheme="green"
               variant="filled"
               onChange={(e: ChangeEvent<HTMLSelectElement>) => {
                 orders?.handleChange({ order: e.target.value as OrderValue, orderBy: orders.current.orderBy })
