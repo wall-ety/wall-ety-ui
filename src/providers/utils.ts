@@ -5,6 +5,6 @@ export function getConfiguration() {
 }
 
 export type OrderType<T> = {
-  orderBy?: keyof T;
+  orderBy?: keyof T | string;
   order?: OrderValue;
 };

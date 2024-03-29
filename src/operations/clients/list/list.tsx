@@ -1,5 +1,5 @@
 import { Client } from "@/gen/client";
-import { List, LabelType } from "@/ui/components/list";
+import { List, LabelType, useOrder } from "@/ui/components/list";
 import { CreateClient } from "@/operations/clients/mutation";
 import { ClientListActions } from "./actions";
 
@@ -9,6 +9,11 @@ import { renderMoney } from "@/utils/money";
 import { formatDate, getAge } from "@/utils/date";
 
 export function ClientList() {
+  const { handleChange, orderValue } = useOrder<Client>({
+    orderBy: "updatedAt",
+    order: "DESC"
+  });
+
   const labels: LabelType<Client>[] = [
     { source: "lastName", label: "Lastname", size: "15%" },
     { source: "firstName", label: "Firstname", size: "15%" },
@@ -35,10 +40,23 @@ export function ClientList() {
     <List
       labels={labels}
       source="clients"
+      keys={[orderValue.order, orderValue.orderBy]}
       title="Create client"
-      provider={clientProvider.getAll}
+      provider={() => clientProvider.getAll(orderValue)}
       overviewProps={{
-        content: <CreateClient />,
+        leftButton: <CreateClient />,
+        orders: {
+          current: orderValue,
+          handleChange,
+          queries: [
+            { value: "updatedAt", label: "Modification" },
+            { value: "createdAt", label: "Creation" },
+            { value: "lastName", label: "Last name" },
+            { value: "firstName", label: "First name" },
+            { value: "monthSalary", label: "Month salary" },
+            { value: "birthdate", label: "Birthdate" }
+          ]
+        }
       }}
     />
   );

@@ -2,7 +2,7 @@ import { Box } from "@chakra-ui/react";
 import { Check, Close } from "@mui/icons-material";
 
 import { Bank } from "@/gen/client";
-import { List, LabelType } from "@/ui/components/list";
+import { List, LabelType, useOrder } from "@/ui/components/list";
 import { CreateBank } from "@/operations/banks/mutation";
 import { BankListActions } from "./actions";
 
@@ -19,6 +19,11 @@ function AuthorizeCreditsShow({ data }: { data: Bank }) {
 }
 
 export function BankList() {
+  const { handleChange, orderValue } = useOrder<Bank>({
+    orderBy: "updatedAt",
+    order: "DESC"
+  });
+
   const labels: LabelType<Bank>[] = [
     { source: "name", label: "Name", size: "15%" },
     {
@@ -34,8 +39,7 @@ export function BankList() {
     { label: "Crédits", size: "10%", component: AuthorizeCreditsShow },
     {
       label: "Updated at",
-      size: "22%",
-      render: (bank) => formatDate(bank.updatedAt!, true),
+      size: "22%", render: (bank) => formatDate(bank.updatedAt!, true),
     },
     { label: "", component: BankListActions, size: "20%" },
   ];
@@ -45,9 +49,21 @@ export function BankList() {
       labels={labels}
       source="banks"
       title="Create bank"
-      provider={bankProvider.getAll}
+      keys={[orderValue.order, orderValue.orderBy]}
+      provider={() => bankProvider.getAll(orderValue)}
       overviewProps={{
-        content: <CreateBank />,
+        leftButton: <CreateBank />,
+        orders: {
+          current: orderValue,
+          handleChange,
+          queries: [
+            { value: "createdAt", label: "Creation" },
+            { value: "updatedAt", label: "Modification" },
+            { value: "name", label: "Bank name" },
+            { value: "firstWeekLoan", label: "F. Loan" },
+            { value: "subsequentLoan", label: "S. Loan" }
+          ]
+        }
       }}
     />
   );

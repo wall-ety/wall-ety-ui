@@ -1,8 +1,5 @@
-import { Box } from "@chakra-ui/react";
-import { Check, Close } from "@mui/icons-material";
-
 import { Category } from "@/gen/client";
-import { List, LabelType } from "@/ui/components/list";
+import { List, LabelType, useOrder } from "@/ui/components/list";
 import { CreateCategory } from "@/operations/categories/mutation";
 import { CategoryListActions } from "./actions";
 
@@ -11,6 +8,11 @@ import { categoryProvider } from "@/providers/category-provider";
 import { formatDate } from "@/utils/date";
 
 export function CategoryList() {
+  const { handleChange, orderValue } = useOrder<Category>({
+    orderBy: "updatedAt",
+    order: "DESC"
+  });
+
   const labels: LabelType<Category>[] = [
     { source: "name", label: "Name", size: "15%" },
     { source: "type", label: "Transaction type", size: "15%" },
@@ -32,9 +34,19 @@ export function CategoryList() {
       labels={labels}
       source="categorys"
       title="Create category"
-      provider={categoryProvider.getAll}
+      keys={[orderValue.orderBy, orderValue.order]}
+      provider={() => categoryProvider.getAll(undefined, orderValue)}
       overviewProps={{
-        content: <CreateCategory />,
+        leftButton: <CreateCategory />,
+        orders: {
+          current: orderValue,
+          handleChange,
+          queries: [
+            { value: "name", label: "Name" },
+            { value: "updatedAt", label: "Modification" },
+            { value: "createdAt", label: "Creation" },
+          ]
+        }
       }}
     />
   );
