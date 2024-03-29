@@ -15,7 +15,8 @@ export function ClientList() {
     {
       label: "Birthdate",
       size: "18%",
-      render: (client) => `${formatDate(client.birthdate!, false)} ( ${getAge(client.birthdate!).toString()}y )`,
+      render: (client) =>
+        `${formatDate(client.birthdate!, false)} ( ${getAge(client.birthdate!).toString()}y )`,
     },
     {
       label: "Month Salary",
@@ -36,7 +37,6 @@ export function ClientList() {
       source="clients"
       title="Create client"
       provider={clientProvider.getAll}
-      rowClick={(data) => alert(JSON.stringify(data))}
       overviewProps={{
         content: <CreateClient />,
       }}

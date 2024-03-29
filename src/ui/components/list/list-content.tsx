@@ -10,9 +10,9 @@ import { ListEmpty } from "./list-empty";
 
 type ListItemProps<T> = {
   item: T;
-  labels: LabelType<T>[],
-  rowClick?: (data: T) => void
-}
+  labels: LabelType<T>[];
+  rowClick?: (data: T) => void;
+};
 
 function ListItem<T>({ item, labels, rowClick }: ListItemProps<T>) {
   const { icolor900 } = usePaletteColor();
@@ -22,18 +22,18 @@ function ListItem<T>({ item, labels, rowClick }: ListItemProps<T>) {
   return (
     <FlexBox
       sx={{
-        my: 3,
-        bgColor: bgColor,
-        textAlign: "center",
-        borderRadius: "5px",
-        py: 3,
-        transition: "all .5s linear",
+        "my": 3,
+        "bgColor": bgColor,
+        "textAlign": "center",
+        "borderRadius": "5px",
+        "py": 3,
+        "transition": "all .5s linear",
         "&:hover": {
           bgColor: hoverBgColor,
         },
-        cursor: rowClick ? "pointer" : "normal"
+        "cursor": rowClick ? "pointer" : "normal",
       }}
-      onClick={() => rowClick ? rowClick(item) : NOOP_FN()}
+      onClick={() => (rowClick ? rowClick(item) : NOOP_FN())}
     >
       {labels.map((label, index) => {
         if (label.component && !label.render) {
@@ -62,17 +62,22 @@ function ListItem<T>({ item, labels, rowClick }: ListItemProps<T>) {
 export function ListContent<T>({
   data,
   labels,
-  rowClick
+  rowClick,
 }: {
-  data: T[],
-  labels: LabelType<T>[],
-  rowClick: ListItemProps<T>["rowClick"]
+  data: T[];
+  labels: LabelType<T>[];
+  rowClick: ListItemProps<T>["rowClick"];
 }) {
   return (
     <Box sx={{ width: "100%" }}>
       {data.length === 0 && <ListEmpty />}
       {data.map((item) => (
-        <ListItem<T> key={uuid()} item={item} rowClick={rowClick} labels={labels} />
+        <ListItem<T>
+          key={uuid()}
+          item={item}
+          rowClick={rowClick}
+          labels={labels}
+        />
       ))}
     </Box>
   );

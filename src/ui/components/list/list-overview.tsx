@@ -5,9 +5,5 @@ export type OverviewProps = {
 };
 
 export function ListOverview({ content }: OverviewProps) {
-  return (
-    <Box sx={{ mb: 5 }}>
-      {content}
-    </Box>
-  );
+  return <Box sx={{ mb: 5 }}>{content}</Box>;
 }

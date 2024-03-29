@@ -1,7 +1,7 @@
 import { Box } from "@chakra-ui/react";
 import {
   AccountBalance as BankNameIcon,
-  CreditScore as LoanIcon
+  CreditScore as LoanIcon,
 } from "@mui/icons-material";
 
 import { SwitchInput, TextInput } from "@/ui/components/mutation/inputs";
@@ -31,10 +31,7 @@ export function BankFields() {
         icon={<LoanIcon />}
         validate={[number(), min(0.0001)]}
       />
-      <SwitchInput
-        name="authorizeCredits"
-        label="Authorize Credits ? "
-      />
+      <SwitchInput name="authorizeCredits" label="Authorize Credits ? " />
     </Box>
   );
 }

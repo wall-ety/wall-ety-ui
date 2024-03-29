@@ -12,9 +12,9 @@ export const bankProvider = {
       .getBanksById(id)
       .then((respone) => respone.data);
   },
-  saveOrUpdate: async (client: Bank[]) => {
+  saveOrUpdate: async (banks: Bank[]) => {
     return bankApi()
-      .crupdateBanks(client)
+      .crupdateBanks(banks)
       .then((respone) => respone.data);
   },
 };

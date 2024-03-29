@@ -12,9 +12,9 @@ export const clientProvider = {
       .getClientById(id)
       .then((respone) => respone.data);
   },
-  saveOrUpdate: async (client: Client[]) => {
+  saveOrUpdate: async (clients: Client[]) => {
     return clientApi()
-      .crupdateClients(client)
+      .crupdateClients(clients)
       .then((respone) => respone.data);
   },
 };

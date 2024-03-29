@@ -7,7 +7,8 @@ import {
   InputGroup,
   InputLeftElement,
   Text,
-  Switch
+  Switch,
+  Select,
 } from "@chakra-ui/react";
 import { v4 as uuid } from "uuid";
 
@@ -17,12 +18,17 @@ type FieldProps = {
   name: string;
   label: string;
   validate?: ((fieldName: string, values: any) => string | undefined)[];
-}
+};
 
 type TextFieldProps = {
   type?: HTMLInputTypeAttribute;
   placeholder?: string;
   icon: React.ReactElement;
+} & FieldProps;
+
+type SelectProps = {
+  options: { label: string; value: string }[];
+  required: boolean;
 } & FieldProps;
 
 export function SwitchInput({ label, name }: FieldProps) {
@@ -33,15 +39,48 @@ export function SwitchInput({ label, name }: FieldProps) {
   return (
     <Field name={name}>
       {() => (
-        <FormControl display='flex' alignItems='center' gap={2}>
+        <FormControl display="flex" alignItems="center" gap={2}>
           <FormLabel htmlFor={id} fontSize="15px">
             {label}
           </FormLabel>
-          <Switch mb={1} isChecked={anyValues[name]} onChange={handleChange} id={id} name={name} />
+          <Switch
+            mb={1}
+            isChecked={anyValues[name]}
+            onChange={handleChange}
+            id={id}
+            name={name}
+          />
         </FormControl>
       )}
     </Field>
-  )
+  );
+}
+
+export function SelectInput({ name, label, options, required }: SelectProps) {
+  const { handleChange, values } = useFormikContext();
+  const anyValues: any = values;
+
+  return (
+    <Field name={name}>
+      {() => (
+        <FormControl display="flex" alignItems="center" gap={2}>
+          <Select
+            required={required}
+            onChange={handleChange}
+            value={anyValues[name]}
+            name={name}
+            placeholder={label}
+          >
+            {options.map((option) => (
+              <option key={option.value} value={option.value}>
+                {option.label}
+              </option>
+            ))}
+          </Select>
+        </FormControl>
+      )}
+    </Field>
+  );
 }
 
 export function TextInput({

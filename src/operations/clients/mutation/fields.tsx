@@ -2,7 +2,7 @@ import { Box } from "@chakra-ui/react";
 import {
   Person as PersonIcon,
   Cake as BirthdateIcon,
-  AttachMoney
+  AttachMoney,
 } from "@mui/icons-material";
 
 import { TextInput } from "@/ui/components/mutation/inputs";

@@ -25,23 +25,23 @@ export function MenuList({ label, children, icon }: MenuListProps) {
         variant="ghost"
         onClick={toggleListMenu}
         sx={{
-          p: 4,
-          gap: 2,
-          my: 1,
-          mx: "auto",
-          w: "250px",
-          display: "flex",
-          alignItems: "center",
-          borderRadius: "15px",
-          fontWeight: "normal",
-          transition: "all .5s linear",
-          cursor: "pointer",
-          justifyContent: "space-between",
+          "p": 4,
+          "gap": 2,
+          "my": 1,
+          "mx": "auto",
+          "w": "250px",
+          "display": "flex",
+          "alignItems": "center",
+          "borderRadius": "15px",
+          "fontWeight": "normal",
+          "transition": "all .5s linear",
+          "cursor": "pointer",
+          "justifyContent": "space-between",
           "&:hover": {
             color: "white.900",
-            bgColor: "main"
+            bgColor: "main",
           },
-          fontSize: "16px",
+          "fontSize": "16px",
           "& .MuiSvgIcon-root": {
             fontSize: "16px",
           },
@@ -56,9 +56,7 @@ export function MenuList({ label, children, icon }: MenuListProps) {
         {isOpen ? <ExpandLess /> : <ExpandMore />}
       </Button>
       <Collapse animate in={isOpen} animateOpacity>
-        <Box width="100%">
-          {children}
-        </Box>
+        <Box width="100%">{children}</Box>
       </Collapse>
       <Box
         sx={{
@@ -71,6 +69,6 @@ export function MenuList({ label, children, icon }: MenuListProps) {
           position: "absolute",
         }}
       />
-    </Box >
+    </Box>
   );
 }
