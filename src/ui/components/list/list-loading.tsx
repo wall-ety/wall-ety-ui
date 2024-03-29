@@ -12,5 +12,5 @@ export function ListLoading() {
     >
       <Spinner />
     </FlexBox>
-  )
+  );
 }

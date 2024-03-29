@@ -92,7 +92,7 @@ export interface Account {
    * @type {string}
    * @memberof Account
    */
-  updateAt?: string;
+  updatedAt?: string;
   /**
    *
    * @type {string}
@@ -129,7 +129,7 @@ export interface AccountBase {
    * @type {string}
    * @memberof AccountBase
    */
-  updateAt?: string;
+  updatedAt?: string;
   /**
    *
    * @type {string}
@@ -410,7 +410,7 @@ export interface CompleteAccount {
    * @type {string}
    * @memberof CompleteAccount
    */
-  updateAt?: string;
+  updatedAt?: string;
   /**
    *
    * @type {string}
@@ -459,7 +459,7 @@ export interface CreateAccount {
    * @type {string}
    * @memberof CreateAccount
    */
-  updateAt?: string;
+  updatedAt?: string;
   /**
    *
    * @type {string}
@@ -591,6 +591,19 @@ export interface Dummy {
    */
   name?: string;
 }
+/**
+ *
+ * @export
+ * @enum {string}
+ */
+
+export const OrderValue = {
+  Desc: "DESC",
+  Asc: "ASC",
+} as const;
+
+export type OrderValue = (typeof OrderValue)[keyof typeof OrderValue];
+
 /**
  *
  * @export
@@ -1204,10 +1217,18 @@ export const AccountsApiAxiosParamCreator = function (
     /**
      *
      * @summary Get all Account
+     * @param {string} [orderBy] string do specify you want to order with what you data
+     * @param {OrderValue} [order] value of your order by
+     * @param {string} [idClient] id of the client
+     * @param {string} [idBank] id of the bank
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     getAllAccounts: async (
+      orderBy?: string,
+      order?: OrderValue,
+      idClient?: string,
+      idBank?: string,
       options: RawAxiosRequestConfig = {}
     ): Promise<RequestArgs> => {
       const localVarPath = `/accounts`;
@@ -1225,6 +1246,22 @@ export const AccountsApiAxiosParamCreator = function (
       };
       const localVarHeaderParameter = {} as any;
       const localVarQueryParameter = {} as any;
+
+      if (orderBy !== undefined) {
+        localVarQueryParameter["orderBy"] = orderBy;
+      }
+
+      if (order !== undefined) {
+        localVarQueryParameter["order"] = order;
+      }
+
+      if (idClient !== undefined) {
+        localVarQueryParameter["idClient"] = idClient;
+      }
+
+      if (idBank !== undefined) {
+        localVarQueryParameter["idBank"] = idBank;
+      }
 
       setSearchParams(localVarUrlObj, localVarQueryParameter);
       let headersFromBaseOptions =
@@ -1434,16 +1471,29 @@ export const AccountsApiFp = function (configuration?: Configuration) {
     /**
      *
      * @summary Get all Account
+     * @param {string} [orderBy] string do specify you want to order with what you data
+     * @param {OrderValue} [order] value of your order by
+     * @param {string} [idClient] id of the client
+     * @param {string} [idBank] id of the bank
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     async getAllAccounts(
+      orderBy?: string,
+      order?: OrderValue,
+      idClient?: string,
+      idBank?: string,
       options?: RawAxiosRequestConfig
     ): Promise<
       (axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<Account>>
     > {
-      const localVarAxiosArgs =
-        await localVarAxiosParamCreator.getAllAccounts(options);
+      const localVarAxiosArgs = await localVarAxiosParamCreator.getAllAccounts(
+        orderBy,
+        order,
+        idClient,
+        idBank,
+        options
+      );
       const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
       const localVarOperationServerBasePath =
         operationServerMap["AccountsApi.getAllAccounts"]?.[
@@ -1558,12 +1608,22 @@ export const AccountsApiFactory = function (
     /**
      *
      * @summary Get all Account
+     * @param {string} [orderBy] string do specify you want to order with what you data
+     * @param {OrderValue} [order] value of your order by
+     * @param {string} [idClient] id of the client
+     * @param {string} [idBank] id of the bank
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    getAllAccounts(options?: any): AxiosPromise<Array<Account>> {
+    getAllAccounts(
+      orderBy?: string,
+      order?: OrderValue,
+      idClient?: string,
+      idBank?: string,
+      options?: any
+    ): AxiosPromise<Array<Account>> {
       return localVarFp
-        .getAllAccounts(options)
+        .getAllAccounts(orderBy, order, idClient, idBank, options)
         .then((request) => request(axios, basePath));
     },
   };
@@ -1673,13 +1733,23 @@ export class AccountsApi extends BaseAPI {
   /**
    *
    * @summary Get all Account
+   * @param {string} [orderBy] string do specify you want to order with what you data
+   * @param {OrderValue} [order] value of your order by
+   * @param {string} [idClient] id of the client
+   * @param {string} [idBank] id of the bank
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
    * @memberof AccountsApi
    */
-  public getAllAccounts(options?: RawAxiosRequestConfig) {
+  public getAllAccounts(
+    orderBy?: string,
+    order?: OrderValue,
+    idClient?: string,
+    idBank?: string,
+    options?: RawAxiosRequestConfig
+  ) {
     return AccountsApiFp(this.configuration)
-      .getAllAccounts(options)
+      .getAllAccounts(orderBy, order, idClient, idBank, options)
       .then((request) => request(this.axios, this.basePath));
   }
 }
@@ -1998,10 +2068,14 @@ export const BanksApiAxiosParamCreator = function (
     /**
      *
      * @summary Get All Banks
+     * @param {OrderValue} [order] value of your order by
+     * @param {string} [orderBy] string do specify you want to order with what you data
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     getAllBanks: async (
+      order?: OrderValue,
+      orderBy?: string,
       options: RawAxiosRequestConfig = {}
     ): Promise<RequestArgs> => {
       const localVarPath = `/banks`;
@@ -2020,6 +2094,14 @@ export const BanksApiAxiosParamCreator = function (
       const localVarHeaderParameter = {} as any;
       const localVarQueryParameter = {} as any;
 
+      if (order !== undefined) {
+        localVarQueryParameter["order"] = order;
+      }
+
+      if (orderBy !== undefined) {
+        localVarQueryParameter["orderBy"] = orderBy;
+      }
+
       setSearchParams(localVarUrlObj, localVarQueryParameter);
       let headersFromBaseOptions =
         baseOptions && baseOptions.headers ? baseOptions.headers : {};
@@ -2037,7 +2119,7 @@ export const BanksApiAxiosParamCreator = function (
     /**
      *
      * @summary Get one Bank by id
-     * @param {string} idBank id of the bank to retrieve
+     * @param {string} idBank id of the bank
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -2123,16 +2205,23 @@ export const BanksApiFp = function (configuration?: Configuration) {
     /**
      *
      * @summary Get All Banks
+     * @param {OrderValue} [order] value of your order by
+     * @param {string} [orderBy] string do specify you want to order with what you data
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     async getAllBanks(
+      order?: OrderValue,
+      orderBy?: string,
       options?: RawAxiosRequestConfig
     ): Promise<
       (axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<Bank>>
     > {
-      const localVarAxiosArgs =
-        await localVarAxiosParamCreator.getAllBanks(options);
+      const localVarAxiosArgs = await localVarAxiosParamCreator.getAllBanks(
+        order,
+        orderBy,
+        options
+      );
       const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
       const localVarOperationServerBasePath =
         operationServerMap["BanksApi.getAllBanks"]?.[
@@ -2149,7 +2238,7 @@ export const BanksApiFp = function (configuration?: Configuration) {
     /**
      *
      * @summary Get one Bank by id
-     * @param {string} idBank id of the bank to retrieve
+     * @param {string} idBank id of the bank
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -2208,18 +2297,24 @@ export const BanksApiFactory = function (
     /**
      *
      * @summary Get All Banks
+     * @param {OrderValue} [order] value of your order by
+     * @param {string} [orderBy] string do specify you want to order with what you data
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    getAllBanks(options?: any): AxiosPromise<Array<Bank>> {
+    getAllBanks(
+      order?: OrderValue,
+      orderBy?: string,
+      options?: any
+    ): AxiosPromise<Array<Bank>> {
       return localVarFp
-        .getAllBanks(options)
+        .getAllBanks(order, orderBy, options)
         .then((request) => request(axios, basePath));
     },
     /**
      *
      * @summary Get one Bank by id
-     * @param {string} idBank id of the bank to retrieve
+     * @param {string} idBank id of the bank
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -2255,20 +2350,26 @@ export class BanksApi extends BaseAPI {
   /**
    *
    * @summary Get All Banks
+   * @param {OrderValue} [order] value of your order by
+   * @param {string} [orderBy] string do specify you want to order with what you data
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
    * @memberof BanksApi
    */
-  public getAllBanks(options?: RawAxiosRequestConfig) {
+  public getAllBanks(
+    order?: OrderValue,
+    orderBy?: string,
+    options?: RawAxiosRequestConfig
+  ) {
     return BanksApiFp(this.configuration)
-      .getAllBanks(options)
+      .getAllBanks(order, orderBy, options)
       .then((request) => request(this.axios, this.basePath));
   }
 
   /**
    *
    * @summary Get one Bank by id
-   * @param {string} idBank id of the bank to retrieve
+   * @param {string} idBank id of the bank
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
    * @memberof BanksApi
@@ -2339,10 +2440,16 @@ export const CategoriesApiAxiosParamCreator = function (
     /**
      *
      * @summary Get All Categories
+     * @param {CategoryType} [type] Type of category to retrieve
+     * @param {OrderValue} [order] value of your order by
+     * @param {string} [orderBy] string do specify you want to order with what you data
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     getAllCategories: async (
+      type?: CategoryType,
+      order?: OrderValue,
+      orderBy?: string,
       options: RawAxiosRequestConfig = {}
     ): Promise<RequestArgs> => {
       const localVarPath = `/categories`;
@@ -2360,6 +2467,18 @@ export const CategoriesApiAxiosParamCreator = function (
       };
       const localVarHeaderParameter = {} as any;
       const localVarQueryParameter = {} as any;
+
+      if (type !== undefined) {
+        localVarQueryParameter["type"] = type;
+      }
+
+      if (order !== undefined) {
+        localVarQueryParameter["order"] = order;
+      }
+
+      if (orderBy !== undefined) {
+        localVarQueryParameter["orderBy"] = orderBy;
+      }
 
       setSearchParams(localVarUrlObj, localVarQueryParameter);
       let headersFromBaseOptions =
@@ -2466,10 +2585,16 @@ export const CategoriesApiFp = function (configuration?: Configuration) {
     /**
      *
      * @summary Get All Categories
+     * @param {CategoryType} [type] Type of category to retrieve
+     * @param {OrderValue} [order] value of your order by
+     * @param {string} [orderBy] string do specify you want to order with what you data
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     async getAllCategories(
+      type?: CategoryType,
+      order?: OrderValue,
+      orderBy?: string,
       options?: RawAxiosRequestConfig
     ): Promise<
       (
@@ -2478,7 +2603,12 @@ export const CategoriesApiFp = function (configuration?: Configuration) {
       ) => AxiosPromise<Array<Category>>
     > {
       const localVarAxiosArgs =
-        await localVarAxiosParamCreator.getAllCategories(options);
+        await localVarAxiosParamCreator.getAllCategories(
+          type,
+          order,
+          orderBy,
+          options
+        );
       const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
       const localVarOperationServerBasePath =
         operationServerMap["CategoriesApi.getAllCategories"]?.[
@@ -2554,12 +2684,20 @@ export const CategoriesApiFactory = function (
     /**
      *
      * @summary Get All Categories
+     * @param {CategoryType} [type] Type of category to retrieve
+     * @param {OrderValue} [order] value of your order by
+     * @param {string} [orderBy] string do specify you want to order with what you data
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    getAllCategories(options?: any): AxiosPromise<Array<Category>> {
+    getAllCategories(
+      type?: CategoryType,
+      order?: OrderValue,
+      orderBy?: string,
+      options?: any
+    ): AxiosPromise<Array<Category>> {
       return localVarFp
-        .getAllCategories(options)
+        .getAllCategories(type, order, orderBy, options)
         .then((request) => request(axios, basePath));
     },
     /**
@@ -2604,13 +2742,21 @@ export class CategoriesApi extends BaseAPI {
   /**
    *
    * @summary Get All Categories
+   * @param {CategoryType} [type] Type of category to retrieve
+   * @param {OrderValue} [order] value of your order by
+   * @param {string} [orderBy] string do specify you want to order with what you data
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
    * @memberof CategoriesApi
    */
-  public getAllCategories(options?: RawAxiosRequestConfig) {
+  public getAllCategories(
+    type?: CategoryType,
+    order?: OrderValue,
+    orderBy?: string,
+    options?: RawAxiosRequestConfig
+  ) {
     return CategoriesApiFp(this.configuration)
-      .getAllCategories(options)
+      .getAllCategories(type, order, orderBy, options)
       .then((request) => request(this.axios, this.basePath));
   }
 
@@ -2688,10 +2834,14 @@ export const ClientsApiAxiosParamCreator = function (
     /**
      *
      * @summary Get all clients
+     * @param {OrderValue} [order] value of your order by
+     * @param {string} [orderBy] string do specify you want to order with what you data
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     getAllClients: async (
+      order?: OrderValue,
+      orderBy?: string,
       options: RawAxiosRequestConfig = {}
     ): Promise<RequestArgs> => {
       const localVarPath = `/clients`;
@@ -2709,6 +2859,14 @@ export const ClientsApiAxiosParamCreator = function (
       };
       const localVarHeaderParameter = {} as any;
       const localVarQueryParameter = {} as any;
+
+      if (order !== undefined) {
+        localVarQueryParameter["order"] = order;
+      }
+
+      if (orderBy !== undefined) {
+        localVarQueryParameter["orderBy"] = orderBy;
+      }
 
       setSearchParams(localVarUrlObj, localVarQueryParameter);
       let headersFromBaseOptions =
@@ -2813,16 +2971,23 @@ export const ClientsApiFp = function (configuration?: Configuration) {
     /**
      *
      * @summary Get all clients
+     * @param {OrderValue} [order] value of your order by
+     * @param {string} [orderBy] string do specify you want to order with what you data
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     async getAllClients(
+      order?: OrderValue,
+      orderBy?: string,
       options?: RawAxiosRequestConfig
     ): Promise<
       (axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<Client>>
     > {
-      const localVarAxiosArgs =
-        await localVarAxiosParamCreator.getAllClients(options);
+      const localVarAxiosArgs = await localVarAxiosParamCreator.getAllClients(
+        order,
+        orderBy,
+        options
+      );
       const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
       const localVarOperationServerBasePath =
         operationServerMap["ClientsApi.getAllClients"]?.[
@@ -2898,12 +3063,18 @@ export const ClientsApiFactory = function (
     /**
      *
      * @summary Get all clients
+     * @param {OrderValue} [order] value of your order by
+     * @param {string} [orderBy] string do specify you want to order with what you data
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    getAllClients(options?: any): AxiosPromise<Array<Client>> {
+    getAllClients(
+      order?: OrderValue,
+      orderBy?: string,
+      options?: any
+    ): AxiosPromise<Array<Client>> {
       return localVarFp
-        .getAllClients(options)
+        .getAllClients(order, orderBy, options)
         .then((request) => request(axios, basePath));
     },
     /**
@@ -2948,13 +3119,19 @@ export class ClientsApi extends BaseAPI {
   /**
    *
    * @summary Get all clients
+   * @param {OrderValue} [order] value of your order by
+   * @param {string} [orderBy] string do specify you want to order with what you data
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
    * @memberof ClientsApi
    */
-  public getAllClients(options?: RawAxiosRequestConfig) {
+  public getAllClients(
+    order?: OrderValue,
+    orderBy?: string,
+    options?: RawAxiosRequestConfig
+  ) {
     return ClientsApiFp(this.configuration)
-      .getAllClients(options)
+      .getAllClients(order, orderBy, options)
       .then((request) => request(this.axios, this.basePath));
   }
 

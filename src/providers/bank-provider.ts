@@ -1,10 +1,11 @@
 import { Bank } from "@/gen/client";
+import { OrderType } from "./utils";
 import { bankApi } from "./api";
 
 export const bankProvider = {
-  getAll: async () => {
+  getAll: async (orderValue: OrderType<Bank>) => {
     return bankApi()
-      .getAllBanks()
+      .getAllBanks(orderValue.order, orderValue.orderBy)
       .then((respone) => respone.data);
   },
   getById: async (id: string) => {

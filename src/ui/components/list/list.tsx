@@ -30,7 +30,12 @@ export function List<T>({
     <Box sx={{ width: "100%", pl: 3 }}>
       <ListOverview {...overviewProps} />
       <ListLabel labels={labels} />
-      <ListContent rowClick={rowClick} isPending={isPending} data={data || []} labels={labels} />
+      <ListContent
+        rowClick={rowClick}
+        isPending={isPending}
+        data={data || []}
+        labels={labels}
+      />
     </Box>
   );
 }

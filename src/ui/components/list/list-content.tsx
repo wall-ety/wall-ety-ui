@@ -64,16 +64,16 @@ export function ListContent<T>({
   data,
   labels,
   rowClick,
-  isPending
+  isPending,
 }: {
   data: T[];
   labels: LabelType<T>[];
   rowClick: ListItemProps<T>["rowClick"];
-  isPending: boolean
+  isPending: boolean;
 }) {
   return (
     <Box sx={{ width: "100%" }}>
-      {(!isPending && data.length === 0) && <ListEmpty />}
+      {!isPending && data.length === 0 && <ListEmpty />}
       {isPending && <ListLoading />}
       {data.map((item) => (
         <ListItem<T>

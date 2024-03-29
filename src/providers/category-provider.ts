@@ -1,10 +1,11 @@
-import { Category } from "@/gen/client";
+import { Category, CategoryType } from "@/gen/client";
+import { OrderType } from "./utils";
 import { categoryApi } from "./api";
 
 export const categoryProvider = {
-  getAll: async () => {
+  getAll: async (type: CategoryType | undefined, orderValue: OrderType<Category>) => {
     return categoryApi()
-      .getAllCategories()
+      .getAllCategories(type, orderValue.order, orderValue.orderBy)
       .then((respone) => respone.data);
   },
   getById: async (id: string) => {
