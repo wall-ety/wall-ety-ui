@@ -53,8 +53,10 @@ function ListItem<T>({ item, labels, rowClick }: ListItemProps<T>) {
           >
             {label.render
               ? label.render(item)
-              //@ts-ignore
-              : (item[label.source] ? item[label.source] : getObjValue(item, label.source) as React.ReactNode)}
+              : //@ts-ignore
+                item[label.source]
+                ? item[label.source]
+                : (getObjValue(item, label.source) as React.ReactNode)}
           </Text>
         );
       })}

@@ -7,7 +7,7 @@ export function useOrder<T>(defaultValue: OrderType<T>) {
 
   const handleChange = (newOrderValue: OrderType<T>) => {
     setOrderValue(newOrderValue);
-  }
+  };
 
   return { orderValue, handleChange };
 }

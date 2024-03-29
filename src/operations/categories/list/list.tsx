@@ -10,21 +10,25 @@ import { categoryProvider } from "@/providers/category-provider";
 
 import { formatDate } from "@/utils/date";
 
-function SelectCategoryType({ onChange }: { onChange: (value: CategoryType | undefined) => void }) {
+function SelectCategoryType({
+  onChange,
+}: {
+  onChange: (value: CategoryType | undefined) => void;
+}) {
   return (
     <>
       <Separator />
       <FlexBox sx={{ gap: 2, mb: 5, width: "300px" }}>
         <Box sx={{ width: "150px" }}>
-          <Text sx={{ fontSize: "14px" }}>
-            Category type:
-          </Text>
+          <Text sx={{ fontSize: "14px" }}>Category type:</Text>
         </Box>
         <Select
           size="sm"
           placeholder="No filter"
           variant="filled"
-          onChange={(e: ChangeEvent<HTMLSelectElement>) => onChange(e.target.value as CategoryType | undefined)}
+          onChange={(e: ChangeEvent<HTMLSelectElement>) =>
+            onChange(e.target.value as CategoryType | undefined)
+          }
         >
           <option value={CategoryType.All}>ALL</option>
           <option value={CategoryType.Debit}>Debits</option>
@@ -33,15 +37,17 @@ function SelectCategoryType({ onChange }: { onChange: (value: CategoryType | und
       </FlexBox>
       <Separator />
     </>
-  )
+  );
 }
 
 export function CategoryList() {
   const { handleChange, orderValue } = useOrder<Category>({
     orderBy: "updatedAt",
-    order: "DESC"
+    order: "DESC",
   });
-  const [typeFilter, setTypeFilter] = useState<CategoryType | undefined>(undefined);
+  const [typeFilter, setTypeFilter] = useState<CategoryType | undefined>(
+    undefined
+  );
 
   const labels: LabelType<Category>[] = [
     { source: "name", label: "Name", size: "15%" },
@@ -64,10 +70,16 @@ export function CategoryList() {
       labels={labels}
       source="categorys"
       keys={[typeFilter, orderValue.orderBy, orderValue.order]}
-      provider={() => categoryProvider.getAll(typeFilter || undefined, orderValue)}
+      provider={() =>
+        categoryProvider.getAll(typeFilter || undefined, orderValue)
+      }
       overviewProps={{
         leftButton: <CreateCategory />,
-        content: <SelectCategoryType onChange={(e: CategoryType | undefined) => setTypeFilter(e)} />,
+        content: (
+          <SelectCategoryType
+            onChange={(e: CategoryType | undefined) => setTypeFilter(e)}
+          />
+        ),
         orders: {
           current: orderValue,
           handleChange,
@@ -75,8 +87,8 @@ export function CategoryList() {
             { value: "name", label: "Name" },
             { value: "updatedAt", label: "Modification" },
             { value: "createdAt", label: "Creation" },
-          ]
-        }
+          ],
+        },
       }}
     />
   );

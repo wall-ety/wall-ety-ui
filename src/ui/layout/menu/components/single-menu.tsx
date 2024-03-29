@@ -17,7 +17,10 @@ export function SingleMenuBase({ label, icon, to }: BaseProps) {
   const pathName = usePathname();
   const { icolor900 } = usePaletteColor();
 
-  const isActive = (to != "/") ? (to && pathName.toString().startsWith(to)) : pathName.toString() === to;
+  const isActive =
+    to != "/"
+      ? to && pathName.toString().startsWith(to)
+      : pathName.toString() === to;
 
   return (
     <Button

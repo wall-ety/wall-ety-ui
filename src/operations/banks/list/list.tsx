@@ -21,7 +21,7 @@ function AuthorizeCreditsShow({ data }: { data: Bank }) {
 export function BankList() {
   const { handleChange, orderValue } = useOrder<Bank>({
     orderBy: "updatedAt",
-    order: "DESC"
+    order: "DESC",
   });
 
   const labels: LabelType<Bank>[] = [
@@ -39,7 +39,8 @@ export function BankList() {
     { label: "Crédits", size: "10%", component: AuthorizeCreditsShow },
     {
       label: "Updated at",
-      size: "22%", render: (bank) => formatDate(bank.updatedAt!, true),
+      size: "22%",
+      render: (bank) => formatDate(bank.updatedAt!, true),
     },
     { label: "", component: BankListActions, size: "20%" },
   ];
@@ -60,9 +61,9 @@ export function BankList() {
             { value: "updatedAt", label: "Modification" },
             { value: "name", label: "Bank name" },
             { value: "firstWeekLoan", label: "F. Loan" },
-            { value: "subsequentLoan", label: "S. Loan" }
-          ]
-        }
+            { value: "subsequentLoan", label: "S. Loan" },
+          ],
+        },
       }}
     />
   );

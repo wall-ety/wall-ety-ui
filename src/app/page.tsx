@@ -1,11 +1,6 @@
 "use client";
 
-import {
-  Box,
-  IconButton,
-  Text,
-  useColorModeValue,
-} from "@chakra-ui/react";
+import { Box, IconButton, Text, useColorModeValue } from "@chakra-ui/react";
 import { TrendingUp, TrendingDown } from "@mui/icons-material";
 import { useQuery } from "@tanstack/react-query";
 import { FlexBox } from "@/ui/components";
@@ -18,7 +13,7 @@ import { clientProvider } from "@/providers/client-provider";
 export default function Home() {
   const { data: clients } = useQuery({
     queryFn: () => clientProvider.getAll({}),
-    queryKey: ["clients"]
+    queryKey: ["clients"],
   });
 
   const bgColor = useColorModeValue("white.900", "black.800");
@@ -37,7 +32,8 @@ export default function Home() {
             Welcome to Wallety
           </Text>
           <Text fontSize="14px" color="white.900" my={1}>
-            Introducing Wallety: Your go-to virtual bank for seamless online financial management and learning.
+            Introducing Wallety: Your go-to virtual bank for seamless online
+            financial management and learning.
           </Text>
           <CreateClient />
         </Box>

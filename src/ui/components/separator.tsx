@@ -8,10 +8,10 @@ export function Separator(props: BoxProps) {
         bgColor: separatorBgColor,
         mt: 2,
         mb: 5,
-        opacity: .7,
-        h: "1px"
+        opacity: 0.7,
+        h: "1px",
       }}
       {...props}
     />
-  )
+  );
 }

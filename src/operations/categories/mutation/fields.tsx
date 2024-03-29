@@ -2,8 +2,8 @@ import { Box } from "@chakra-ui/react";
 import { Category as CategoryIcon } from "@mui/icons-material";
 
 import { SelectInput, TextInput } from "@/ui/components/mutation/inputs";
-import { required } from "@/ui/utils/formik/validate";
 import { CategoryType } from "@/gen/client";
+import { required } from "@/ui/utils/formik/validate";
 
 export function CategoryFields() {
   return (

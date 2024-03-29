@@ -27,7 +27,7 @@ type MutationButton = {
 
 export type MutationProps<T> = {
   children: React.ReactNode;
-  source: string;
+  source: string | string[];
   title?: string;
   defaultValue?: T;
   successToast?: {
@@ -70,7 +70,7 @@ export function Mutation<T>({
         });
       },
       onSuccess: () => {
-        queryClient.invalidateQueries({ queryKey: [source] });
+        queryClient.invalidateQueries({ queryKey: typeof source === "string" ? [source] : source });
         toast({
           title: successToast?.title || "Created",
           description:

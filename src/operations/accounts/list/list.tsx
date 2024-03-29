@@ -25,9 +25,9 @@ function AuthorizeCreditsShow({ data }: { data: Account }) {
 }
 
 export type AccountListFilter = {
-  idBank?: string,
-  idCient?: string
-}
+  idBank?: string;
+  idCient?: string;
+};
 
 export function AccountList() {
   const router = useRouter();
@@ -35,7 +35,7 @@ export function AccountList() {
 
   const { handleChange, orderValue } = useOrder<Account>({
     orderBy: "updatedAt",
-    order: "DESC"
+    order: "DESC",
   });
 
   const labels: LabelType<Account>[] = [
@@ -45,7 +45,8 @@ export function AccountList() {
     { label: "Crédits", size: "10%", component: AuthorizeCreditsShow },
     {
       label: "Updated at",
-      size: "22%", render: (account) => formatDate(account.updatedAt!, true),
+      size: "22%",
+      render: (account) => formatDate(account.updatedAt!, true),
     },
     { label: "", component: AccountListActions, size: "20%" },
   ];
@@ -54,8 +55,19 @@ export function AccountList() {
     <List
       labels={labels}
       source="accounts"
-      keys={[orderValue.order, orderValue.orderBy, filter.idBank, filter.idCient]}
-      provider={() => accountProvider.getAll(orderValue, filter.idCient || undefined, filter.idBank || undefined)}
+      keys={[
+        orderValue.order,
+        orderValue.orderBy,
+        filter.idBank,
+        filter.idCient,
+      ]}
+      provider={() =>
+        accountProvider.getAll(
+          orderValue,
+          filter.idCient || undefined,
+          filter.idBank || undefined
+        )
+      }
       rowClick={(account) => router.push(`/accounts/${account.id!}`)}
       overviewProps={{
         leftButton: <CreateAccountModal />,
@@ -66,23 +78,28 @@ export function AccountList() {
           queries: [
             { value: "name", label: "Account name" },
             { value: "createdAt", label: "Creation" },
-            { value: "updatedAt", label: "Modification" }
-          ]
-        }
+            { value: "updatedAt", label: "Modification" },
+          ],
+        },
       }}
     />
   );
 }
 
-function AccountListOverview({ onChange }: { onChange: Dispatch<SetStateAction<AccountListFilter>> }) {
+function AccountListOverview({
+  onChange,
+}: {
+  onChange: Dispatch<SetStateAction<AccountListFilter>>;
+}) {
   const { data: banks } = useQuery({
     queryFn: () => bankProvider.getAll({ orderBy: "name", order: "DESC" }),
-    queryKey: ["banks"]
+    queryKey: ["banks"],
   });
 
   const { data: clients } = useQuery({
-    queryFn: () => clientProvider.getAll({ orderBy: "firstName", order: "DESC" }),
-    queryKey: ["clients"]
+    queryFn: () =>
+      clientProvider.getAll({ orderBy: "firstName", order: "DESC" }),
+    queryKey: ["clients"],
   });
 
   return (
@@ -90,35 +107,43 @@ function AccountListOverview({ onChange }: { onChange: Dispatch<SetStateAction<A
       <Separator />
       <FlexBox sx={{ gap: 2, mb: 5, width: "300px" }}>
         <Box sx={{ width: "150px" }}>
-          <Text sx={{ fontSize: "14px" }}>
-            Bank:
-          </Text>
+          <Text sx={{ fontSize: "14px" }}>Bank:</Text>
         </Box>
         <Select
           size="sm"
           placeholder="No filter"
           variant="filled"
           minWidth={150}
-          onChange={(e: ChangeEvent<HTMLSelectElement>) => onChange(prev => ({ ...prev, idBank: e.target.value }))}
+          onChange={(e: ChangeEvent<HTMLSelectElement>) =>
+            onChange((prev) => ({ ...prev, idBank: e.target.value }))
+          }
         >
-          {(banks || []).map(bank => <option key={bank.id} value={bank.id}>{bank.name}</option>)}
+          {(banks || []).map((bank) => (
+            <option key={bank.id} value={bank.id}>
+              {bank.name}
+            </option>
+          ))}
         </Select>
         <Box sx={{ width: "150px" }}>
-          <Text sx={{ fontSize: "14px" }}>
-            Owner:
-          </Text>
+          <Text sx={{ fontSize: "14px" }}>Owner:</Text>
         </Box>
         <Select
           size="sm"
           placeholder="No filter"
           variant="filled"
           minWidth={150}
-          onChange={(e: ChangeEvent<HTMLSelectElement>) => onChange(prev => ({ ...prev, idCient: e.target.value }))}
+          onChange={(e: ChangeEvent<HTMLSelectElement>) =>
+            onChange((prev) => ({ ...prev, idCient: e.target.value }))
+          }
         >
-          {(clients || []).map(client => <option key={client.id} value={client.id}>{client.firstName}</option>)}
+          {(clients || []).map((client) => (
+            <option key={client.id} value={client.id}>
+              {client.firstName}
+            </option>
+          ))}
         </Select>
       </FlexBox>
       <Separator />
     </>
-  )
+  );
 }

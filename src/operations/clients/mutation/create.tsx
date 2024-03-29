@@ -44,9 +44,9 @@ export function CreateClient() {
           label: "Create user",
           props: {
             bgColor: "white",
-            color: "black.500"
-          }
-        }
+            color: "black.500",
+          },
+        },
       }}
     >
       <ClientFields />

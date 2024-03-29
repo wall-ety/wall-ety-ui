@@ -1,5 +1,6 @@
 import { Client } from "@/gen/client";
-import { List, LabelType, useOrder } from "@/ui/components/list"; import { CreateClient } from "@/operations/clients/mutation";
+import { List, LabelType, useOrder } from "@/ui/components/list";
+import { CreateClient } from "@/operations/clients/mutation";
 import { ClientListActions } from "./actions";
 
 import { clientProvider } from "@/providers/client-provider";
@@ -10,7 +11,7 @@ import { formatDate, getAge } from "@/utils/date";
 export function ClientList() {
   const { handleChange, orderValue } = useOrder<Client>({
     orderBy: "updatedAt",
-    order: "DESC"
+    order: "DESC",
   });
 
   const labels: LabelType<Client>[] = [
@@ -51,9 +52,9 @@ export function ClientList() {
             { value: "lastName", label: "Last name" },
             { value: "firstName", label: "First name" },
             { value: "monthSalary", label: "Month salary" },
-            { value: "birthdate", label: "Birthdate" }
-          ]
-        }
+            { value: "birthdate", label: "Birthdate" },
+          ],
+        },
       }}
     />
   );

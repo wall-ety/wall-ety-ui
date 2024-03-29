@@ -13,7 +13,7 @@ export function EditAccount({ data }: { data: CreateAccount }) {
 
     return {
       ...account,
-      updatedAt: currentDate
+      updatedAt: currentDate,
     };
   };
 

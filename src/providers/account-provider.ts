@@ -1,9 +1,13 @@
-import { Account, Transaction } from "@/gen/client";
+import { Account, CreateTransaction, Transaction } from "@/gen/client";
 import { OrderType } from "./utils";
 import { accountApi, balanceApi, transactionApi } from "./api";
 
 export const accountProvider = {
-  getAll: async (orderValue: OrderType<Account>, idClient: string | undefined, idBank: string | undefined) => {
+  getAll: async (
+    orderValue: OrderType<Account>,
+    idClient: string | undefined,
+    idBank: string | undefined
+  ) => {
     return accountApi()
       .getAllAccounts(orderValue.orderBy, orderValue.order, idClient, idBank)
       .then((respone) => respone.data);
@@ -21,11 +25,23 @@ export const accountProvider = {
   getCurrentBalance: async (accountId: string) => {
     return balanceApi()
       .getCurrentBalance(accountId)
-      .then(response => response.data)
+      .then((response) => response.data);
   },
-  getTransaction: async (accountId: string, orderValue: OrderType<Transaction>) => {
+  getTransaction: async (
+    accountId: string,
+    orderValue: OrderType<Transaction>
+  ) => {
     return transactionApi()
-      .getTransactionsByAccountId(accountId, orderValue.order, orderValue.orderBy)
-      .then(response => response.data)
-  }
+      .getTransactionsByAccountId(
+        accountId,
+        orderValue.order,
+        orderValue.orderBy
+      )
+      .then((response) => response.data);
+  },
+  doTransaction: async (transactions: CreateTransaction[]) => {
+    return transactionApi()
+      .createTransactions(transactions)
+      .then((response) => response.data);
+  },
 };

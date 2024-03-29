@@ -15,4 +15,4 @@ export const bankApi = () => new BanksApi(getConfiguration());
 export const categoryApi = () => new CategoriesApi(getConfiguration());
 export const accountApi = () => new AccountsApi(getConfiguration());
 export const balanceApi = () => new BalancesApi(getConfiguration());
-export const transactionApi= () => new TransactionsApi(getConfiguration());
+export const transactionApi = () => new TransactionsApi(getConfiguration());

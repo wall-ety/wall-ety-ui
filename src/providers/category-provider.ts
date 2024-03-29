@@ -3,7 +3,10 @@ import { OrderType } from "./utils";
 import { categoryApi } from "./api";
 
 export const categoryProvider = {
-  getAll: async (type: CategoryType | undefined, orderValue: OrderType<Category>) => {
+  getAll: async (
+    type: CategoryType | undefined,
+    orderValue: OrderType<Category>
+  ) => {
     return categoryApi()
       .getAllCategories(type, orderValue.order, orderValue.orderBy)
       .then((respone) => respone.data);

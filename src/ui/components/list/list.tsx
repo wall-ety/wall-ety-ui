@@ -10,7 +10,7 @@ type ListProps<T> = {
   labels: LabelType<T>[];
   overviewProps: OverviewProps<T>;
   source: string;
-  keys?: any[],
+  keys?: any[];
   rowClick?: (data: T) => void;
 };
 
@@ -20,7 +20,7 @@ export function List<T>({
   source,
   overviewProps,
   rowClick,
-  keys
+  keys,
 }: ListProps<T>) {
   const { data, isPending } = useQuery({
     queryFn: provider,
