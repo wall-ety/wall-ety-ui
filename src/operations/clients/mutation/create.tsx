@@ -39,6 +39,15 @@ export function CreateClient() {
       transform={transform}
       provider={createProvider}
       defaultValue={defaultValue}
+      buttons={{
+        toggle: {
+          label: "Create user",
+          props: {
+            bgColor: "white",
+            color: "black.500"
+          }
+        }
+      }}
     >
       <ClientFields />
     </CreateMutation>

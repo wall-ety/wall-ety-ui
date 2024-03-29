@@ -6,7 +6,7 @@ import { OrderValue } from "@/gen/client";
 import { usePaletteColor } from "@/ui/hooks";
 
 export type OverviewProps<T> = {
-  leftButton: React.ReactNode;
+  leftButton?: React.ReactNode;
   content?: React.ReactNode;
   orders?: {
     current: OrderType<T>,

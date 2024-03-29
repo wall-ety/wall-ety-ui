@@ -8,6 +8,7 @@ import { usePaletteColor } from "@/ui/hooks";
 import { NOOP_FN } from "@/utils/noop";
 import { ListEmpty } from "./list-empty";
 import { ListLoading } from "./list-loading";
+import { getObjValue } from "@/utils/get-obj-value";
 
 type ListItemProps<T> = {
   item: T;
@@ -52,7 +53,8 @@ function ListItem<T>({ item, labels, rowClick }: ListItemProps<T>) {
           >
             {label.render
               ? label.render(item)
-              : (item[label.source!] as React.ReactNode)}
+              //@ts-ignore
+              : (item[label.source] ? item[label.source] : getObjValue(item, label.source) as React.ReactNode)}
           </Text>
         );
       })}

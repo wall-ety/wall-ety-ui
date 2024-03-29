@@ -4,19 +4,17 @@ import { Category, CategoryType } from "@/gen/client";
 import { List, LabelType, useOrder } from "@/ui/components/list";
 import { CreateCategory } from "@/operations/categories/mutation";
 import { CategoryListActions } from "./actions";
-import { FlexBox } from "@/ui/components";
+import { FlexBox, Separator } from "@/ui/components";
 
 import { categoryProvider } from "@/providers/category-provider";
 
 import { formatDate } from "@/utils/date";
 
 function SelectCategoryType({ onChange }: { onChange: (value: CategoryType | undefined) => void }) {
-  const separatorBgColor = useColorModeValue("black.500", "white.500");
-
   return (
     <>
-      <Box sx={{ bgColor: separatorBgColor, mt: 2, mb: 5, opacity: .5, h: "1px" }} />
-      <FlexBox sx={{ gap: 2, width: "300px" }}>
+      <Separator />
+      <FlexBox sx={{ gap: 2, mb: 5, width: "300px" }}>
         <Box sx={{ width: "150px" }}>
           <Text sx={{ fontSize: "14px" }}>
             Category type:
@@ -33,7 +31,7 @@ function SelectCategoryType({ onChange }: { onChange: (value: CategoryType | und
           <option value={CategoryType.Credit}>Credits</option>
         </Select>
       </FlexBox>
-      <Box sx={{ bgColor: separatorBgColor, mt: 5, opacity: .5, h: "1px", mb: 5 }} />
+      <Separator />
     </>
   )
 }
@@ -66,7 +64,7 @@ export function CategoryList() {
       labels={labels}
       source="categorys"
       keys={[typeFilter, orderValue.orderBy, orderValue.order]}
-      provider={() => categoryProvider.getAll(typeFilter, orderValue)}
+      provider={() => categoryProvider.getAll(typeFilter || undefined, orderValue)}
       overviewProps={{
         leftButton: <CreateCategory />,
         content: <SelectCategoryType onChange={(e: CategoryType | undefined) => setTypeFilter(e)} />,

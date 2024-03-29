@@ -1,6 +1,7 @@
 import { Box, Text, useColorModeValue } from "@chakra-ui/react";
 import {
   AccountBalance,
+  AccountCircle,
   Category as CategoryIcon,
   Paid,
   Person,
@@ -40,12 +41,13 @@ export function Menu() {
         MENU
       </Text>
       <SingleMenu
-        to="/clients"
-        label="Clients"
+        to="/"
+        label="Home"
         icon={<Person sx={{ fontSize: "14px" }} />}
       />
       <SingleMenu to="/banks" label="Banks" icon={<AccountBalance />} />
       <SingleMenu to="/categories" label="Categories" icon={<CategoryIcon />} />
+      <SingleMenu to="/accounts" label="Accounts" icon={<AccountCircle />} />
       <MenuList label="Transactions" icon={<Paid />}>
         <MenuItem
           icon={<TransferWithinAStation />}

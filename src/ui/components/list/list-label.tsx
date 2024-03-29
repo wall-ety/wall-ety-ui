@@ -3,7 +3,7 @@ import { FlexBox } from "../flex-box";
 
 export type LabelType<T> = {
   label: string;
-  source?: keyof T;
+  source?: keyof T | string;
   size?: number | string;
   component?: React.FC<{ data: T }>;
   render?: (data: T) => string;

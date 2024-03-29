@@ -24,7 +24,7 @@ export function EditClient({ data }: { data: Client }) {
   return (
     <EditMutation
       source="clients"
-      title={`Edit ${data.id}`}
+      title={`Edit ${data.firstName}`}
       data={data}
       defaultValue={data}
       transform={transform}

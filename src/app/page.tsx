@@ -2,19 +2,25 @@
 
 import {
   Box,
-  Button,
   IconButton,
   Text,
   useColorModeValue,
 } from "@chakra-ui/react";
 import { TrendingUp, TrendingDown } from "@mui/icons-material";
-
+import { useQuery } from "@tanstack/react-query";
 import { FlexBox } from "@/ui/components";
-import { LineChart } from "@/ui/components/chart";
 import { usePaletteColor } from "@/ui/hooks";
 import { PALETTE_COLORS } from "@/ui/theme";
+import { ClientList } from "@/operations/clients/list";
+import { CreateClient } from "@/operations/clients/mutation";
+import { clientProvider } from "@/providers/client-provider";
 
 export default function Home() {
+  const { data: clients } = useQuery({
+    queryFn: () => clientProvider.getAll({}),
+    queryKey: ["clients"]
+  });
+
   const bgColor = useColorModeValue("white.900", "black.800");
   const { secondText, primaryText } = usePaletteColor();
 
@@ -28,21 +34,18 @@ export default function Home() {
       <FlexBox sx={{ gap: 4, alignItems: "stretch", mb: 5 }}>
         <Box sx={{ flex: 1, bgColor: "main", p: 5, rounded: 8 }}>
           <Text fontSize="16px" color="white.900" my={1} fontWeight="bold">
-            Welcome Back
+            Welcome to Wallety
           </Text>
           <Text fontSize="14px" color="white.900" my={1}>
-            Lorem ipsum dolor sit amet, qui minim labore adipisicing minim sint
-            cillum sint consectetur cupidatat.
+            Introducing Wallety: Your go-to virtual bank for seamless online financial management and learning.
           </Text>
-          <Button bgColor="white.900" size="sm" color="black.900" my={1}>
-            Create Account
-          </Button>
+          <CreateClient />
         </Box>
         <Box sx={{ flex: 1, bgColor, p: 5, rounded: 8 }}>
           <Box sx={{ display: "flex", justifyContent: "space-between" }}>
             <Box>
               <Text fontSize="13px" color={secondText}>
-                Month salary
+                All of users
               </Text>
               <Text
                 fontSize="1rem"
@@ -50,12 +53,12 @@ export default function Home() {
                 fontWeight="bold"
                 color={{ primaryText }}
               >
-                First Account
+                List of Users
               </Text>
             </Box>
             <Box textAlign="end">
               <Text fontSize="13px" color={secondText}>
-                Avalaible Money
+                Total of Users
               </Text>
               <Text
                 fontSize="1rem"
@@ -63,7 +66,7 @@ export default function Home() {
                 fontWeight="bold"
                 color={{ primaryText }}
               >
-                $ 5441.5
+                {(clients || []).length}
               </Text>
             </Box>
           </Box>
@@ -87,7 +90,7 @@ export default function Home() {
           </FlexBox>
         </Box>
       </FlexBox>
-      <LineChart sx={{ width: 500 }} />
+      <ClientList />
     </Box>
   );
 }
