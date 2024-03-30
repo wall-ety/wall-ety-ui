@@ -34,7 +34,7 @@ export function CreateClient() {
 
   return (
     <CreateMutation
-      source="clients"
+      source={["clients"]}
       title="Create client"
       transform={transform}
       provider={createProvider}

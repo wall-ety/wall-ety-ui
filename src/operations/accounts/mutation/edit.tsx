@@ -19,7 +19,7 @@ export function EditAccount({ data }: { data: CreateAccount }) {
 
   return (
     <EditMutation
-      source="accounts"
+      source={["accounts"]}
       title={`Edit ${data.name}`}
       data={data}
       defaultValue={data}

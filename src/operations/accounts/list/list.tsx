@@ -54,7 +54,7 @@ export function AccountList() {
   return (
     <List
       labels={labels}
-      source="accounts"
+      source={["accounts"]}
       keys={[
         orderValue.order,
         orderValue.orderBy,

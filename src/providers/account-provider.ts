@@ -1,6 +1,14 @@
-import { Account, CreateTransaction, Transaction } from "@/gen/client";
+import {
+  Account,
+  CreateTransaction,
+  CreateTransfer,
+  Transaction,
+  Transfer,
+  TransferDirection,
+  TransferStatus,
+} from "@/gen/client";
 import { OrderType } from "./utils";
-import { accountApi, balanceApi, transactionApi } from "./api";
+import { accountApi, balanceApi, transactionApi, transferApi } from "./api";
 
 export const accountProvider = {
   getAll: async (
@@ -42,6 +50,35 @@ export const accountProvider = {
   doTransaction: async (transactions: CreateTransaction[]) => {
     return transactionApi()
       .createTransactions(transactions)
+      .then((response) => response.data);
+  },
+  cancelTransfer: async (transferId: string) => {
+    return transferApi()
+      .cancelById(transferId)
+      .then((response) => response.data);
+  },
+  doTransfers: async (
+    externBank: boolean | undefined,
+    transfers: CreateTransfer[]
+  ) => {
+    return transferApi()
+      .createTransfers(externBank, transfers)
+      .then((response) => response.data);
+  },
+  getTransfers: async (
+    accountId: string,
+    direction: TransferDirection | undefined,
+    status: TransferStatus | undefined,
+    order: OrderType<Transfer>
+  ) => {
+    return transferApi()
+      .getTransfersByAccountId(
+        accountId,
+        direction,
+        status,
+        order.order,
+        order.orderBy
+      )
       .then((response) => response.data);
   },
 };

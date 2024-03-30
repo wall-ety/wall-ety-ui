@@ -9,7 +9,7 @@ type ListProps<T> = {
   provider: () => Promise<T[]>;
   labels: LabelType<T>[];
   overviewProps: OverviewProps<T>;
-  source: string;
+  source: string[];
   keys?: any[];
   rowClick?: (data: T) => void;
 };
@@ -24,7 +24,7 @@ export function List<T>({
 }: ListProps<T>) {
   const { data, isPending } = useQuery({
     queryFn: provider,
-    queryKey: [source, ...(keys || [])],
+    queryKey: [...source, ...(keys || [])],
   });
 
   return (

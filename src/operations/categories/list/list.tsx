@@ -68,7 +68,7 @@ export function CategoryList() {
   return (
     <List
       labels={labels}
-      source="categorys"
+      source={["categories"]}
       keys={[typeFilter, orderValue.orderBy, orderValue.order]}
       provider={() =>
         categoryProvider.getAll(typeFilter || undefined, orderValue)

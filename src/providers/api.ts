@@ -6,6 +6,7 @@ import {
   ClientsApi,
   HealthApi,
   TransactionsApi,
+  TransfersApi,
 } from "@/gen/client";
 import { getConfiguration } from "./utils";
 
@@ -16,3 +17,4 @@ export const categoryApi = () => new CategoriesApi(getConfiguration());
 export const accountApi = () => new AccountsApi(getConfiguration());
 export const balanceApi = () => new BalancesApi(getConfiguration());
 export const transactionApi = () => new TransactionsApi(getConfiguration());
+export const transferApi = () => new TransfersApi(getConfiguration());

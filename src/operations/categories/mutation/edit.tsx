@@ -19,7 +19,7 @@ export function EditCategory({ data }: { data: Category }) {
 
   return (
     <EditMutation
-      source="categorys"
+      source={["categories"]}
       title={`Edit ${data.name}`}
       data={data}
       defaultValue={data}

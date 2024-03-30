@@ -30,7 +30,7 @@ export function CreateTransactions({ accounId }: { accounId: string }) {
 
   return (
     <CreateMutation
-      source={["transactions", "balances"]}
+      source={["balances", "transactions"]}
       title="Create Transactions"
       defaultValue={defaultValue}
       transform={transform}
@@ -39,10 +39,9 @@ export function CreateTransactions({ accounId }: { accounId: string }) {
         toggle: {
           label: "New transaction",
         },
-      }
-      }
+      }}
     >
       <TransactionFields />
-    </CreateMutation >
+    </CreateMutation>
   );
 }

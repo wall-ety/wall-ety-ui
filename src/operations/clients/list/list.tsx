@@ -1,6 +1,5 @@
 import { Client } from "@/gen/client";
 import { List, LabelType, useOrder } from "@/ui/components/list";
-import { CreateClient } from "@/operations/clients/mutation";
 import { ClientListActions } from "./actions";
 
 import { clientProvider } from "@/providers/client-provider";
@@ -39,7 +38,7 @@ export function ClientList() {
   return (
     <List
       labels={labels}
-      source="clients"
+      source={["clients"]}
       keys={[orderValue.order, orderValue.orderBy]}
       provider={() => clientProvider.getAll(orderValue)}
       overviewProps={{

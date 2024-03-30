@@ -48,7 +48,7 @@ export function BankList() {
   return (
     <List
       labels={labels}
-      source="banks"
+      source={["banks"]}
       keys={[orderValue.order, orderValue.orderBy]}
       provider={() => bankProvider.getAll(orderValue)}
       overviewProps={{

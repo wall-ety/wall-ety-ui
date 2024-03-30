@@ -1,8 +1,4 @@
-import {
-  Heading,
-  Box,
-  Text
-} from "@chakra-ui/react";
+import { Heading, Box, Text } from "@chakra-ui/react";
 import { Transaction, TransactionType } from "@/gen/client";
 import { LabelType, List, useOrder } from "@/ui/components/list";
 import { CreateTransactions } from "../mutation/create";
@@ -31,23 +27,19 @@ function ShowOneTransaction({ data: transaction }: { data: Transaction }) {
       button={{
         label: "More info",
         props: {
-          colorScheme: "blue"
-        }
+          colorScheme: "blue",
+        },
       }}
       modalContent={{
         props: {
           sx: {
-            p: 5
-          }
-        }
+            p: 5,
+          },
+        },
       }}
     >
-      <Heading sx={{ fontSize: "16px", mb: 3 }}>
-        Transaction Reason
-      </Heading>
-      <Text sx={{ fontSize: "14px" }}>
-        {transaction.reason}
-      </Text>
+      <Heading sx={{ fontSize: "16px", mb: 3 }}>Transaction Reason</Heading>
+      <Text sx={{ fontSize: "14px" }}>{transaction.reason}</Text>
     </ButtonModal>
   );
 }
@@ -78,7 +70,7 @@ export function TransactionList({ accountId }: { accountId: string }) {
   return (
     <List
       labels={labels}
-      source="transactions"
+      source={["transactions", "balances"]}
       provider={() => accountProvider.getTransaction(accountId, orderValue)}
       keys={[accountId, orderValue.order, orderValue.orderBy]}
       overviewProps={{

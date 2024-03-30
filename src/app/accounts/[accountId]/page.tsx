@@ -14,6 +14,7 @@ import { TransactionList } from "@/operations/transactions/list";
 import { accountProvider } from "@/providers/account-provider";
 import { useToast } from "@/ui/hooks";
 import { formatDate } from "@/utils/date";
+import { TransferList } from "@/operations/transfers/list";
 
 export function CurrentBalanceShow({ accountId }: { accountId: string }) {
   const { data: currentBalance, isPending } = useQuery<
@@ -26,8 +27,8 @@ export function CurrentBalanceShow({ accountId }: { accountId: string }) {
   });
 
   return (
-    <Box sx={{ mt: 5 }}>
-      <Heading sx={{ fontSize: "15px", opacity: 0.8 }}>
+    <Box>
+      <Heading sx={{ mb: 5, fontSize: "15px", opacity: 0.8 }}>
         Balance last modification:{" "}
         <span style={{ fontWeight: "normal" }}>
           {!isPending && formatDate(currentBalance?.balance?.createdAt!)}
@@ -105,9 +106,21 @@ export default function AccountShow({
 
   return (
     <>
-      <Box>
-        <Heading sx={{ fontSize: "1.6rem" }}>Account {account?.name}</Heading>
+      <Box sx={{ mb: 5 }}>
+        <Heading sx={{ fontSize: "1.6rem" }}>
+          Account of {account?.client?.firstName}
+        </Heading>
       </Box>
+      <Heading sx={{ fontSize: "15px", opacity: 0.8, mb: 1 }}>
+        Bank:{" "}
+        <span style={{ fontWeight: "normal" }}>{account?.bank?.name}</span>
+      </Heading>
+      <Heading sx={{ fontSize: "15px", opacity: 0.8, mb: 1 }}>
+        Owner:{" "}
+        <span style={{ fontWeight: "normal" }}>
+          {account?.client?.firstName} {account?.client?.lastName}
+        </span>
+      </Heading>
       <FlexBox sx={{ gap: 2, mb: 10 }}>
         <CurrentBalanceShow accountId={accountId} />
         <Separator />
@@ -133,7 +146,11 @@ export default function AccountShow({
           Transfers
         </Button>
       </FlexBox>
-      <TransactionList accountId={accountId} />
+      {!isTransfer ? (
+        <TransactionList accountId={accountId} />
+      ) : (
+        <TransferList accountId={accountId} />
+      )}
     </>
   );
 }

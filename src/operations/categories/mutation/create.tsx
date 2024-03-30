@@ -27,7 +27,7 @@ export function CreateCategory() {
 
   return (
     <CreateMutation
-      source="categorys"
+      source={["categories"]}
       title="Create category"
       transform={transform}
       provider={createProvider}

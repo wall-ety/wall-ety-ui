@@ -34,7 +34,7 @@ export function CreateBank() {
 
   return (
     <CreateMutation
-      source="banks"
+      source={["banks"]}
       title="Create bank"
       transform={transform}
       provider={createProvider}

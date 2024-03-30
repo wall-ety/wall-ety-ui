@@ -23,7 +23,7 @@ export function EditBank({ data }: { data: Bank }) {
 
   return (
     <EditMutation
-      source="banks"
+      source={["banks"]}
       title={`Edit ${data.name}`}
       data={data}
       defaultValue={data}

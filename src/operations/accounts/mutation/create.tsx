@@ -15,8 +15,6 @@ export function CreateAccountModal() {
     name: "",
     idBank: "",
     idClient: "",
-    //wrong docs
-    /*@ts-ignore*/
     authorizeCredits: false,
   };
 
@@ -32,7 +30,7 @@ export function CreateAccountModal() {
 
   return (
     <CreateMutation
-      source="accounts"
+      source={["accounts"]}
       title="Create account"
       transform={transform}
       provider={createProvider}
