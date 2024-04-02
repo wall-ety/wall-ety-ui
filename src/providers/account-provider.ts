@@ -94,4 +94,9 @@ export const accountProvider = {
       )
       .then((response) => response.data);
   },
+  getAny: async (accountId: string, from: string, to: string) => {
+    return accountApi()
+      .getAccountTransactionsStatements(accountId, from, to)
+      .then((response) => response.data);
+  },
 };

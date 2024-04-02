@@ -8,6 +8,7 @@ import {
   Title,
   Tooltip,
   Legend,
+  ChartData,
 } from "chart.js";
 import { Line } from "react-chartjs-2";
 import { Box, StyleProps, useColorModeValue } from "@chakra-ui/react";
@@ -35,7 +36,19 @@ const options = {
   },
 };
 
-const labels = ["January", "February", "March", "April", "May", "June", "July"];
+const labels = [
+  "January",
+  "February",
+  "March",
+  "April",
+  "May",
+  "June",
+  "July",
+  "Aout",
+  "September",
+  "November",
+  "December",
+];
 
 const data = {
   labels,
@@ -55,12 +68,36 @@ const data = {
   ],
 };
 
-export function LineChart({ sx = {} }: { sx?: StyleProps }) {
+export function LineChart({
+  sx = {},
+  data = [],
+}: {
+  sx?: StyleProps;
+  data: any[];
+}) {
   const bgColor = useColorModeValue("white.900", "black.800");
-
   return (
     <Box sx={{ p: 5, bgColor, ...sx }}>
-      <Line options={options} data={data} />
+      <Line
+        options={options}
+        data={{
+          labels,
+          datasets: [
+            {
+              label: "Debits",
+              data: data.map((el) => el[0].amount),
+              borderColor: "red",
+              backgroundColor: "red",
+            },
+            {
+              label: "Credits",
+              data: data.map((el) => el[1].amount),
+              borderColor: "blue",
+              backgroundColor: "blue",
+            },
+          ],
+        }}
+      />
     </Box>
   );
 }

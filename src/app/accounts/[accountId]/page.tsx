@@ -13,18 +13,14 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 
 import { ListLoading } from "@/ui/components/list/list-loading";
 import { BoxCard, FlexBox, Separator } from "@/ui/components";
-import {
-  Account,
-  ApiErrorResponse,
-  BalanceInfo,
-  CategoryStatement,
-} from "@/gen/client";
+import { Account, ApiErrorResponse, BalanceInfo } from "@/gen/client";
 import { TransactionList } from "@/operations/transactions/list";
 import { accountProvider } from "@/providers/account-provider";
 import { useToast } from "@/ui/hooks";
 import { formatDate } from "@/utils/date";
 import { TransferList } from "@/operations/transfers/list";
 import Link from "next/link";
+import { LineChart } from "@/ui/components/chart";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
@@ -150,6 +146,7 @@ export default function AccountShow({
         <CurrentBalanceShow accountId={accountId} />
         <Separator />
       </FlexBox>
+      <LineChartView accountId={accountId} />
       <Link href={`/statements/${accountId}`}>
         <Button my={5} size="sm" px={5} colorScheme="blue">
           Statements
@@ -191,6 +188,35 @@ export default function AccountShow({
 const getBgColor = () => {
   return "#" + Math.floor(Math.random() * 16777215).toString(16);
 };
+
+function LineChartView(props: any) {
+  const { accountId } = props;
+  const [data, setData] = useState<any>([]);
+
+  useEffect(() => {
+    const start = new Date(`${new Date().getFullYear()}-01-01`);
+    const tempdata: any[] = [];
+
+    const get = async (i: number) => {
+      start.setMonth(i);
+      const end = new Date(start.toDateString());
+      end.setDate(25);
+      const newData = await accountProvider.getAny(
+        accountId,
+        start.toISOString(),
+        end.toISOString()
+      );
+      //@ts-ignore
+      setData((prev) => [...prev, newData]);
+    };
+
+    for (let i = 0; i <= 11; i++) {
+      get(i);
+    }
+  }, []);
+
+  return data.length < 12 ? <ListLoading /> : <LineChart data={data} />;
+}
 
 function PieChart({ accountId }: { accountId: string }) {
   const { data: statements, isPending } = useQuery({
