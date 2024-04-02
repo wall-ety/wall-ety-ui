@@ -39,7 +39,13 @@ function TransferStatusShow({ data: transfer }: { data: Transfer }) {
   );
 }
 
-function ShowOneTransfer({ data: transfer }: { data: Transfer }) {
+function ShowOneTransfer({
+  refetch,
+  data: transfer,
+}: {
+  refetch: () => void;
+  data: Transfer;
+}) {
   const toast = useToast();
   const queryClient = useQueryClient();
   const { mutate, isPending } = useMutation<
@@ -56,11 +62,12 @@ function ShowOneTransfer({ data: transfer }: { data: Transfer }) {
       });
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["transfers"] });
+      queryClient.clear();
       toast({
         title: "Transfer cancelled by success",
         description: "Exit code with 200",
       });
+      refetch();
     },
   });
 
@@ -100,7 +107,13 @@ function ShowOneTransfer({ data: transfer }: { data: Transfer }) {
   );
 }
 
-export function TransferList({ accountId }: { accountId: string }) {
+export function TransferList({
+  accountId,
+  refetch,
+}: {
+  refetch: () => void;
+  accountId: string;
+}) {
   const [filter, setFilter] = useState<TransferFilter>({
     direction: TransferDirection.All,
     status: undefined,
@@ -125,13 +138,19 @@ export function TransferList({ accountId }: { accountId: string }) {
       render: (transfer) => formatDate(transfer?.effectiveDatetime!),
       size: "20%",
     },
-    { label: "", component: ShowOneTransfer, size: "35%" },
+    {
+      label: "",
+      component: ({ data }) => (
+        <ShowOneTransfer refetch={refetch} data={data} />
+      ),
+      size: "35%",
+    },
   ];
 
   return (
     <List
       labels={labels}
-      source={["transactions", "balances", "tranfers"]}
+      source={["balances", "transactions", "transfers"]}
       provider={() =>
         accountProvider.getTransfers(
           accountId,
@@ -148,7 +167,7 @@ export function TransferList({ accountId }: { accountId: string }) {
         filter.status,
       ]}
       overviewProps={{
-        leftButton: <CreateTransfers accounId={accountId} />,
+        leftButton: <CreateTransfers refetch={refetch} accounId={accountId} />,
         content: <TransferListOverview onChange={setFilter} />,
         orders: {
           current: orderValue,
@@ -157,6 +176,7 @@ export function TransferList({ accountId }: { accountId: string }) {
             { value: "amount", label: "Amount" },
             { value: "effectiveDatetime", label: "Effective Date" },
             { value: "label", label: "Label" },
+            { value: "createdAt", label: "Creation" },
           ],
         },
       }}

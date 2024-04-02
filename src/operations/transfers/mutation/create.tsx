@@ -5,7 +5,13 @@ import { TransferFields } from "./fields";
 import { accountProvider } from "@/providers/account-provider";
 import { dateToISO } from "@/utils/date";
 
-export function CreateTransfers({ accounId }: { accounId: string }) {
+export function CreateTransfers({
+  refetch,
+  accounId,
+}: {
+  refetch: () => void;
+  accounId: string;
+}) {
   const createProvider = async (toSave: CreateTransfer) => {
     /*@ts-ignore*/
     const externBank = toSave.externBank;
@@ -46,6 +52,7 @@ export function CreateTransfers({ accounId }: { accounId: string }) {
       title="Create Transfers"
       defaultValue={defaultValue}
       transform={transform}
+      refetch={refetch}
       provider={createProvider}
       buttons={{
         toggle: {

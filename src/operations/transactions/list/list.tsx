@@ -44,7 +44,13 @@ function ShowOneTransaction({ data: transaction }: { data: Transaction }) {
   );
 }
 
-export function TransactionList({ accountId }: { accountId: string }) {
+export function TransactionList({
+  accountId,
+  refetch,
+}: {
+  refetch: () => void;
+  accountId: string;
+}) {
   const { handleChange, orderValue } = useOrder<Transaction>({
     orderBy: "transactionDatetime",
     order: "DESC",
@@ -70,11 +76,13 @@ export function TransactionList({ accountId }: { accountId: string }) {
   return (
     <List
       labels={labels}
-      source={["transactions", "balances"]}
+      source={["balances", "transactions", "transfers"]}
       provider={() => accountProvider.getTransaction(accountId, orderValue)}
       keys={[accountId, orderValue.order, orderValue.orderBy]}
       overviewProps={{
-        leftButton: <CreateTransactions accounId={accountId} />,
+        leftButton: (
+          <CreateTransactions refetch={refetch} accounId={accountId} />
+        ),
         orders: {
           current: orderValue,
           handleChange,

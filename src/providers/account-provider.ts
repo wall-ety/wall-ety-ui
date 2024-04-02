@@ -65,6 +65,11 @@ export const accountProvider = {
       .createTransfers(externBank, transfers)
       .then((response) => response.data);
   },
+  getStatements: async (accountId: string, from: string, to: string) => {
+    return accountApi()
+      .getAccountCategoriesStatements(accountId, from, to)
+      .then((response) => response.data);
+  },
   getTransfers: async (
     accountId: string,
     direction: TransferDirection | undefined,

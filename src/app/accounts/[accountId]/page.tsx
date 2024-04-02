@@ -1,30 +1,52 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
+
+import React from "react";
+import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
+import { Pie } from "react-chartjs-2";
 
 import { Box, Button, Heading } from "@chakra-ui/react";
 import { AttachMoney } from "@mui/icons-material";
 import { useRouter } from "next/navigation";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 
 import { ListLoading } from "@/ui/components/list/list-loading";
 import { BoxCard, FlexBox, Separator } from "@/ui/components";
-import { Account, ApiErrorResponse, BalanceInfo } from "@/gen/client";
+import {
+  Account,
+  ApiErrorResponse,
+  BalanceInfo,
+  CategoryStatement,
+} from "@/gen/client";
 import { TransactionList } from "@/operations/transactions/list";
 import { accountProvider } from "@/providers/account-provider";
 import { useToast } from "@/ui/hooks";
 import { formatDate } from "@/utils/date";
 import { TransferList } from "@/operations/transfers/list";
 
+ChartJS.register(ArcElement, Tooltip, Legend);
+
 export function CurrentBalanceShow({ accountId }: { accountId: string }) {
+  const queryClient = useQueryClient();
   const { data: currentBalance, isPending } = useQuery<
     BalanceInfo,
     ApiErrorResponse,
     BalanceInfo
   >({
     queryFn: () => accountProvider.getCurrentBalance(accountId),
-    queryKey: [accountId, "balances"],
+    queryKey: ["balances", "transactions", "transfers"],
+    refetchOnMount: true,
+    refetchOnReconnect: true,
   });
+
+  useEffect(() => {
+    return () => {
+      queryClient.invalidateQueries({
+        queryKey: ["balances", "transactions", "transfers"],
+      });
+    };
+  }, [queryClient]);
 
   return (
     <Box>
@@ -77,6 +99,7 @@ export default function AccountShow({
 }: {
   params: { accountId: string };
 }) {
+  const [test, setTetst] = useState(false);
   const [view, setView] = useState<ViewType>(ViewType.TRANSACTIONS);
   const router = useRouter();
   const toast = useToast();
@@ -115,13 +138,14 @@ export default function AccountShow({
         Bank:{" "}
         <span style={{ fontWeight: "normal" }}>{account?.bank?.name}</span>
       </Heading>
-      <Heading sx={{ fontSize: "15px", opacity: 0.8, mb: 1 }}>
+      <Heading sx={{ fontSize: "15px", opacity: 0.8, mb: 5 }}>
         Owner:{" "}
         <span style={{ fontWeight: "normal" }}>
           {account?.client?.firstName} {account?.client?.lastName}
         </span>
       </Heading>
-      <FlexBox sx={{ gap: 2, mb: 10 }}>
+      <FlexBox sx={{ gap: 5, mb: 10 }}>
+        <PieChart accountId={accountId} />
         <CurrentBalanceShow accountId={accountId} />
         <Separator />
       </FlexBox>
@@ -147,10 +171,63 @@ export default function AccountShow({
         </Button>
       </FlexBox>
       {!isTransfer ? (
-        <TransactionList accountId={accountId} />
+        <TransactionList
+          refetch={() => setTetst(!test)}
+          accountId={accountId}
+        />
       ) : (
-        <TransferList accountId={accountId} />
+        <TransferList refetch={() => setTetst(!test)} accountId={accountId} />
       )}
     </>
+  );
+}
+
+const getBgColor = () => {
+  return "#" + Math.floor(Math.random() * 16777215).toString(16);
+};
+
+function PieChart({ accountId }: { accountId: string }) {
+  const { data: statements, isPending } = useQuery({
+    queryFn: () =>
+      accountProvider.getStatements(
+        accountId,
+        "2024-02-02T18:55:46.457Z",
+        new Date().toISOString()
+      ),
+    queryKey: ["statemens"],
+    refetchOnReconnect: true,
+    refetchOnMount: true,
+  });
+
+  if (isPending || !statements) {
+    return <ListLoading />;
+  }
+
+  if (statements.filter((el) => el.amount !== 0).length === 0) {
+    return null;
+  }
+
+  const colors = statements
+    .filter((el) => el.amount !== 0)
+    .map(() => getBgColor());
+
+  const dataToShow = {
+    labels: statements?.filter((el) => el.amount !== 0).map((el) => el.name),
+    datasets: [
+      {
+        label: "# money",
+        data: statements.filter((el) => el.amount !== 0).map((el) => el.amount),
+        backgroundColor: colors,
+        borderColor: colors,
+        borderWidth: 1,
+      },
+    ],
+  };
+
+  return (
+    <Box sx={{ width: "350px" }}>
+      {/*@ts-ignore*/}
+      <Pie data={dataToShow} />
+    </Box>
   );
 }

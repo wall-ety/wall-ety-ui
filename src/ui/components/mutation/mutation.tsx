@@ -29,6 +29,7 @@ export type MutationProps<T> = {
   children: React.ReactNode;
   source: string[];
   title?: string;
+  refetch?: () => void;
   defaultValue?: T;
   successToast?: {
     title?: string;
@@ -49,6 +50,7 @@ export function Mutation<T>({
   title,
   provider,
   source,
+  refetch,
   transform,
   buttons,
   successToast,
@@ -70,7 +72,7 @@ export function Mutation<T>({
         });
       },
       onSuccess: () => {
-        queryClient.invalidateQueries({ queryKey: source });
+        queryClient.clear();
         toast({
           title: successToast?.title || "Created",
           description:
@@ -79,6 +81,7 @@ export function Mutation<T>({
           status: "success",
         });
         onClose();
+        refetch && refetch();
       },
     }
   );

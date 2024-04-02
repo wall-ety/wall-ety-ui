@@ -12,6 +12,7 @@ type ListProps<T> = {
   source: string[];
   keys?: any[];
   rowClick?: (data: T) => void;
+  refetch?: () => void;
 };
 
 export function List<T>({

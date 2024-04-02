@@ -4,7 +4,13 @@ import { CreateMutation } from "@/ui/components/mutation";
 import { TransactionFields } from "./fields";
 import { accountProvider } from "@/providers/account-provider";
 
-export function CreateTransactions({ accounId }: { accounId: string }) {
+export function CreateTransactions({
+  accounId,
+  refetch,
+}: {
+  refetch: () => void;
+  accounId: string;
+}) {
   const createProvider = (toSave: CreateTransaction) =>
     accountProvider.doTransaction([toSave]).then((response) => response[0]);
 
@@ -30,10 +36,11 @@ export function CreateTransactions({ accounId }: { accounId: string }) {
 
   return (
     <CreateMutation
-      source={["balances", "transactions"]}
+      source={["balances", "transactions", "transfers"]}
       title="Create Transactions"
       defaultValue={defaultValue}
       transform={transform}
+      refetch={refetch}
       provider={createProvider}
       buttons={{
         toggle: {
