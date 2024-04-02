@@ -1,11 +1,20 @@
-import { Heading, Box, Text } from "@chakra-ui/react";
-import { Transfer, TransferStatus } from "@/gen/client";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { Heading, Box, Text, Button, Select } from "@chakra-ui/react";
+import {
+  ApiErrorResponse,
+  Transfer,
+  TransferDirection,
+  TransferStatus,
+} from "@/gen/client";
 import { LabelType, List, useOrder } from "@/ui/components/list";
-import { ButtonModal } from "@/ui/components";
+import { ButtonModal, FlexBox, Separator } from "@/ui/components";
 import { CreateTransfers } from "../mutation/create";
+import { AxiosError } from "axios";
+import { ChangeEvent, Dispatch, SetStateAction, useState } from "react";
 import { accountProvider } from "@/providers/account-provider";
 import { formatDate } from "@/utils/date";
 import { renderMoney } from "@/utils/money";
+import { useToast } from "@/ui/hooks";
 
 function getColors(status: TransferStatus) {
   switch (status) {
@@ -31,29 +40,72 @@ function TransferStatusShow({ data: transfer }: { data: Transfer }) {
 }
 
 function ShowOneTransfer({ data: transfer }: { data: Transfer }) {
+  const toast = useToast();
+  const queryClient = useQueryClient();
+  const { mutate, isPending } = useMutation<
+    string,
+    AxiosError<ApiErrorResponse>,
+    string
+  >({
+    mutationFn: (id: string) => accountProvider.cancelTransfer(id),
+    onError: (error) => {
+      toast({
+        title: error!.response?.data.message,
+        status: "error",
+        description: `Exit code with ${error!.response?.data?.code}`,
+      });
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["transfers"] });
+      toast({
+        title: "Transfer cancelled by success",
+        description: "Exit code with 200",
+      });
+    },
+  });
+
   return (
-    <ButtonModal
-      button={{
-        label: "More info",
-        props: {
-          colorScheme: "blue",
-        },
-      }}
-      modalContent={{
-        props: {
-          sx: {
-            p: 5,
+    <FlexBox sx={{ width: "35%", gap: 4, justifyContent: "end", pr: 5 }}>
+      {transfer.status === TransferStatus.Pending && (
+        <Button
+          onClick={() => mutate(transfer.id!)}
+          disabled
+          isLoading={isPending}
+          size="sm"
+          colorScheme="red"
+        >
+          Cancel
+        </Button>
+      )}
+      <ButtonModal
+        button={{
+          label: "More info",
+          props: {
+            colorScheme: "blue",
+            sx: { py: 2 },
           },
-        },
-      }}
-    >
-      <Heading sx={{ fontSize: "16px", mb: 3 }}>Transfer Reason</Heading>
-      <Text sx={{ fontSize: "14px" }}>{transfer.reason}</Text>
-    </ButtonModal>
+        }}
+        modalContent={{
+          props: {
+            sx: {
+              p: 5,
+            },
+          },
+        }}
+      >
+        <Heading sx={{ fontSize: "16px", mb: 3 }}>Transfer Reason</Heading>
+        <Text sx={{ fontSize: "14px" }}>{transfer.reason}</Text>
+      </ButtonModal>
+    </FlexBox>
   );
 }
 
 export function TransferList({ accountId }: { accountId: string }) {
+  const [filter, setFilter] = useState<TransferFilter>({
+    direction: TransferDirection.All,
+    status: undefined,
+  });
+
   const { handleChange, orderValue } = useOrder<Transfer>({
     orderBy: "effectiveDatetime",
     order: "DESC",
@@ -65,17 +117,15 @@ export function TransferList({ accountId }: { accountId: string }) {
     { label: "Category", source: "category.name", size: "10%" },
     {
       label: "Amount",
-      /*@ts-ignore*/ //wrong spec
-      render: (transfer) => renderMoney(transfer.amount),
+      render: (transfer) => renderMoney(transfer.amount!),
       size: "15%",
     },
     {
       label: "Effective date",
-      /*@ts-ignore*/ //wrong spec
       render: (transfer) => formatDate(transfer?.effectiveDatetime!),
       size: "20%",
     },
-    { label: "", component: ShowOneTransfer, size: "20%" },
+    { label: "", component: ShowOneTransfer, size: "35%" },
   ];
 
   return (
@@ -85,14 +135,21 @@ export function TransferList({ accountId }: { accountId: string }) {
       provider={() =>
         accountProvider.getTransfers(
           accountId,
-          undefined,
-          undefined,
+          filter.direction,
+          filter.status,
           orderValue
         )
       }
-      keys={[accountId, orderValue.order, orderValue.orderBy]}
+      keys={[
+        accountId,
+        orderValue.order,
+        orderValue.orderBy,
+        filter.direction,
+        filter.status,
+      ]}
       overviewProps={{
         leftButton: <CreateTransfers accounId={accountId} />,
+        content: <TransferListOverview onChange={setFilter} />,
         orders: {
           current: orderValue,
           handleChange,
@@ -104,5 +161,79 @@ export function TransferList({ accountId }: { accountId: string }) {
         },
       }}
     />
+  );
+}
+
+type TransferFilter = {
+  status?: TransferStatus;
+  direction?: TransferDirection;
+};
+
+function TransferListOverview({
+  onChange,
+}: {
+  onChange: Dispatch<SetStateAction<TransferFilter>>;
+}) {
+  const directionOptions = [
+    { label: "IN", value: TransferDirection.In },
+    { label: "OUT", value: TransferDirection.Out },
+    { label: "ALL", value: TransferDirection.All },
+  ];
+
+  const statusOptions = [
+    { label: "Failed", value: TransferStatus.Failed },
+    { label: "Completed", value: TransferStatus.Completed },
+    { label: "Cancelled", value: TransferStatus.Cancelled },
+    { label: "Pending", value: TransferStatus.Pending },
+  ];
+
+  return (
+    <>
+      <Separator />
+      <FlexBox sx={{ gap: 2, mb: 5, width: "300px" }}>
+        <Box sx={{ width: "150px" }}>
+          <Text sx={{ fontSize: "14px" }}>Status: </Text>
+        </Box>
+        <Select
+          size="sm"
+          placeholder="No filter"
+          variant="filled"
+          minWidth={150}
+          onChange={(e: ChangeEvent<HTMLSelectElement>) =>
+            onChange((prev) => ({
+              ...prev,
+              status: e.target.value as TransferStatus,
+            }))
+          }
+        >
+          {statusOptions.map((status) => (
+            <option key={status.value} value={status.value}>
+              {status.label}
+            </option>
+          ))}
+        </Select>
+        <Box sx={{ width: "150px" }}>
+          <Text sx={{ fontSize: "14px" }}>Direction: </Text>
+        </Box>
+        <Select
+          size="sm"
+          variant="filled"
+          minWidth={150}
+          onChange={(e: ChangeEvent<HTMLSelectElement>) =>
+            onChange((prev) => ({
+              ...prev,
+              direction: e.target.value as TransferDirection,
+            }))
+          }
+        >
+          {directionOptions.map((direction) => (
+            <option key={direction.value} value={direction.value}>
+              {direction.label}
+            </option>
+          ))}
+        </Select>
+      </FlexBox>
+      <Separator />
+    </>
   );
 }

@@ -41,7 +41,7 @@ function UserInfo() {
             size="sm"
             display="block"
             name="John Doe"
-            src="default_profile.jpg"
+            src="/default_profile.jpg"
           >
             <AvatarBadge boxSize="1.25em" bg="green.500" />
           </Avatar>
