@@ -24,6 +24,7 @@ import { accountProvider } from "@/providers/account-provider";
 import { useToast } from "@/ui/hooks";
 import { formatDate } from "@/utils/date";
 import { TransferList } from "@/operations/transfers/list";
+import Link from "next/link";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
@@ -149,6 +150,11 @@ export default function AccountShow({
         <CurrentBalanceShow accountId={accountId} />
         <Separator />
       </FlexBox>
+      <Link href={`/statements/${accountId}`}>
+        <Button my={5} size="sm" px={5} colorScheme="blue">
+          Statements
+        </Button>
+      </Link>
       <FlexBox sx={{ gap: 3, mb: 5, pb: 4, borderBottom: "1px solid #b3afaf" }}>
         <Button
           size="sm"

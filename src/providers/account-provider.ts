@@ -7,6 +7,7 @@ import {
   TransferDirection,
   TransferStatus,
 } from "@/gen/client";
+import axios from "axios";
 import { OrderType } from "./utils";
 import { accountApi, balanceApi, transactionApi, transferApi } from "./api";
 
@@ -83,6 +84,13 @@ export const accountProvider = {
         status,
         order.order,
         order.orderBy
+      )
+      .then((response) => response.data);
+  },
+  getBankStatements: async (accountId: string, from: string, to: string) => {
+    return axios
+      .get(
+        `http://localhost:8080/accounts/${accountId}/statements?from=${new Date(from).toISOString()}&to=${new Date(to).toISOString()}`
       )
       .then((response) => response.data);
   },
